@@ -5,7 +5,7 @@ wdpksrc is a cross compilation framework intended to compile and package softwar
 WDCommunity provides packages for Western Digital-branded NAS devices.
 Packages are provided for free and made by developers on their free time. See how you can contribute.
 
-Many packages are published on the WD `community forums`_.
+Many packages are published on the WD `community forum`_.
 
 Contributing
 ------------
