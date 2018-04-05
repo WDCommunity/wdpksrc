@@ -3,8 +3,13 @@ packages
 native/*/work*
 cross/*/work*
 kernel/*/work*
-spk/*/work*
+wdpk/*/work*
+
+wdpk/*/*.sign
+wdpk/*/*.xml
+
 toolchains/*/work*
 local.mk
+
 *.DS_Store
 *~
