@@ -15,6 +15,12 @@ If you can't find an answer, or if you want to open a package request, read `CON
 
 Setup Development Environment
 -----------------------------
+
+On Ubuntu 16.04:
+
+    apt-get update
+    apt-get install libxml2:i386
+
 Docker
 ^^^^^^
 * Fork and clone wdpksrc: ``git clone https://You@github.com/You/wdpksrc.git ~/wdpksrc``
