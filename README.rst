@@ -19,6 +19,7 @@ Setup Development Environment
 On Ubuntu 16.04:
 
     apt-get update
+
     apt-get install libxml2:i386
 
 Docker
