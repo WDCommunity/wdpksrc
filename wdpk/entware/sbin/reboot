@@ -1,0 +1,8 @@
+#!/bin/sh
+
+/shares/Volume_1/Nas_prog/entware/clean.sh
+
+# reset PATH
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/usr/local/bin"
+
+reboot "$@"

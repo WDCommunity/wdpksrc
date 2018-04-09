@@ -1,0 +1,19 @@
+Package:	entware
+Version:	1.0
+Packager:	TFL
+Email:
+Homepage:	https://github.com/Entware-ng/entware-ng
+Description:	Ultimate repo for embedded devices
+Icon:	        entware.png
+AddonShowName:	Entware-ng
+AddonIndexPage:	
+AddonUsedPort:	
+InstDepend:
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0

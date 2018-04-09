@@ -1,5 +1,5 @@
-distrib
-packages
+/distrib
+/packages
 native/*/work*
 cross/*/work*
 kernel/*/work*
