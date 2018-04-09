@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APP_DIR="nzbget"
+APP_DIR="entware"
 CWD="$(pwd)"
 VERSION="$(awk '/Version/{print $NF}' apkg.rc)"
 echo "Building version ${VERSION}"

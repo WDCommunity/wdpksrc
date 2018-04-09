@@ -1,0 +1,13 @@
+export TERM=xterm-color
+
+export LS_OPTS='--color=auto'
+alias ls='ls ${LS_OPTS}'
+alias ll='ls -l'
+
+alias view='vi -R'
+
+alias cdnp='cd /shares/Volume_1/Nas_Prog'
+
+# TODO: export PATH only for interactive shell
+
+export PATH='/opt/bin:/opt/sbin:/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin/'
