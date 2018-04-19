@@ -1,0 +1,19 @@
+Package:	medusa
+Version:	0.02
+Packager:	TFL
+Email:
+Homepage:	https://github.com/pymedusa/Medusa
+Description:	Organize your TV series
+Icon:		medusa.png
+AddonShowName:	Medusa
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:	entware
+InstConflict:
+StartDepend:	entware
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0

@@ -1,0 +1,118 @@
+#!/bin/sh
+# inspired by synology script in couchpotato dir
+
+# Output of Medusa/SickRage.py --help
+#
+# Usage: python -m medusa [OPTION]...
+
+# Options:
+#  -h,  --help            Prints this message
+#  -q,  --quiet           Disables logging to console
+#       --nolaunch        Suppress launching web browser on startup
+#
+#  -d,  --daemon          Run as double forked daemon (with --quiet --nolaunch)
+#                         On Windows and MAC, this option is ignored but still
+#                         applies --quiet --nolaunch
+#       --pidfile=[FILE]  Combined with --daemon creates a pid file
+#
+#  -p,  --port=[PORT]     Override default/configured port to listen on
+#       --datadir=[PATH]  Override folder (full path) as location for
+#                         storing database, config file, cache, and log files
+#                         Default /opt/share/medusa/Medusa
+#       --config=[FILE]   Override config filename for loading configuration
+#                         Default config.ini in /opt/share/medusa/Medusa or
+#                         location specified with --datadir
+#       --noresize        Prevent resizing of the banner/posters even if PIL
+#                         is installed
+
+
+# Fix for language issues
+export LANG=en_US.UTF8
+
+# Package
+PACKAGE="medusa"
+DNAME="Medusa"
+
+# Others
+PKG_DIR="/shares/Volume_1/Nas_Prog/${PACKAGE}"
+INSTALL_DIR="${PKG_DIR}/${DNAME}"
+PYTHON_DIR="/opt/bin"
+PATH="${INSTALL_DIR}/bin:${INSTALL_DIR}/env/bin:/opt/bin:/opt/sbin:/usr/local/bin:/bin:/usr/bin"
+RUNAS="medusa"
+PYTHON="${PYTHON_DIR}/python2.7"
+SICKBEARD="${INSTALL_DIR}/SickBeard.py"
+CFG_FILE="${PKG_DIR}/settings.conf"
+PID_FILE="${PKG_DIR}/medusa.pid"
+LOG_FILE="${PKG_DIR}/logs/medusa.log"
+
+
+start_daemon ()
+{
+    if [ 1 ]; then
+        PATH=${PATH} ${PYTHON} ${SICKBEARD} --datadir ${INSTALL_DIR} --daemon --pidfile ${PID_FILE} --config ${CFG_FILE}
+    else
+        # TODO: create sickbeard user in init.sh
+        su ${RUNAS} -c "PATH=${PATH} ${PYTHON} ${SICKBEARD} --daemon --pidfile ${PID_FILE} --config ${CFG_FILE}"
+    fi
+}
+
+stop_daemon()
+{
+    kill $(cat ${PID_FILE})
+    wait_for_status 1 20
+    rm -f ${PID_FILE}
+}
+
+daemon_status()
+{
+    if [ -f ${PID_FILE} ] && [ -d /proc/$(cat ${PID_FILE}) ]; then
+        return 0
+    fi
+    return 1
+}
+
+wait_for_status()
+{
+    counter=$2
+    while [ ${counter} -gt 0 ]; do
+                daemon_status
+        [ $? -eq $1 ] && break
+                counter=`expr $counter - 1`
+        sleep 1
+    done
+}
+
+case $1 in
+    start)
+        if daemon_status; then
+                        echo ${DNAME} is already running
+        else
+                        echo Starting ${DNAME} ...
+            start_daemon
+        fi
+        ;;
+    stop)
+        if daemon_status; then
+                        echo Stopping ${DNAME} ...
+            stop_daemon
+        else
+                        echo ${DNAME} is not running
+        fi
+        ;;
+    status)
+        if daemon_status; then
+                        echo ${DNAME} is running
+            exit 0
+        else
+                        echo ${DNAME} is not running
+            exit 1
+        fi
+        ;;
+    log)
+        echo ${LOG_FILE}
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+

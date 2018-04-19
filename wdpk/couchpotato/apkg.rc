@@ -1,0 +1,19 @@
+Package:	couchpotato
+Version:	0.02
+Packager:	TFL
+Email:
+Homepage:	https://github.com/couchpotato/CouchPotatoServer
+Description:	Organize your movies
+Icon:		couchpotato.png
+AddonShowName:	CouchPotato
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:	entware
+InstConflict:
+StartDepend:	entware
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
