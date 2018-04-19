@@ -46,8 +46,8 @@ then
 else
    # setup default MainDir
    sed -i "s|^MainDir=.*|MainDir=/shares/Public/nzbget|" ${APKG_CONFIG}
-   sed -i "s|^DaemonUsername=.*|DaemonUsername=1001|" ${APKG_CONFIG}
-   sed -i "s|^UMask=1000|Umake=000|" ${APKG_CONFIG}
+   #sed -i "s|^DaemonUsername=.*|DaemonUsername=1001|" ${APKG_CONFIG}
+   sed -i "s|^UMask=1000|UMask=000|" ${APKG_CONFIG}
 fi
 echo "Addon NZBget (install.sh) done" >> $log
 
