@@ -1,0 +1,19 @@
+Package:	cops
+Version:	0.03
+Packager:	TFL
+Email:
+Homepage:	https://github.com/seblucas/cops
+Description:	Calibre ebook content server
+Icon:	        cops.png
+AddonShowName:	Calibre COPS
+AddonIndexPage:	index.php
+AddonUsedPort:	
+InstDepend:     
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0

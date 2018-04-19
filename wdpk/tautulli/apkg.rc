@@ -1,0 +1,19 @@
+Package:	tautulli
+Version:	0.02
+Packager:	TFL
+Email:
+Homepage:	https://tautulli.com
+Description:	Monitor your Plex server
+Icon:	        tautulli.png
+AddonShowName:	Tautulli
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:     
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
