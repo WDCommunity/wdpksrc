@@ -1,5 +1,5 @@
 Package:	nzbget
-Version:	0.07
+Version:	0.08
 Packager:	TFL
 Email:
 Homepage:	https://nzbget.net
@@ -7,7 +7,7 @@ Description:	The most efficient usenet downloader
 Icon:	nzbget.png
 AddonShowName:	NZBget
 AddonIndexPage:	index.html
-AddonUsedPort:	6789
+AddonUsedPort:
 InstDepend:
 InstConflict:
 StartDepend:
