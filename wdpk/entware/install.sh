@@ -19,8 +19,15 @@ mkdir -p ${OPT_ROOT}
 echo "APKG_DEBUG: mount $OPT_ROOT to /opt" >> $LOG
 mount --bind ${OPT_ROOT} /opt
 
-echo "APKG_DEBUG: download and install entware-ng" >> $LOG
-wget -O - http://pkg.entware.net/binaries/x86-64/installer/entware_install.sh | sh
+ARCH="$(uname -m)"
+if [ ${ARCH} = "x86_64"]; then
+    ENT_ARCH="x86-64"
+else
+    ENT_ARCH="arm7"
+fi
+
+echo "APKG_DEBUG: download and install entware-ng for $ARCH" >> $LOG
+wget -O - "http://pkg.entware.net/binaries/${ENT_ARCH}/installer/entware_install.sh" | sh
 
 echo "APKG_DEBUG: keep old WD reboot"
 ln -s ${APKG_PATH}/sbin/reboot /opt/sbin/reboot
