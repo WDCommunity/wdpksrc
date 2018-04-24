@@ -1,0 +1,30 @@
+#!/bin/sh
+# Copyright 2011 Canonical, Inc
+#           2014 Tianon Gravi
+# Author: Serge Hallyn <serge.hallyn@canonical.com>
+#         Tianon Gravi <admwiggin@gmail.com>
+#set -e
+
+# we don't care to move tasks around gratuitously - just umount the cgroups
+
+# if we don't even have the directory we need, something else must be wrong
+if [ ! -d /sys/fs/cgroup ]; then
+	exit 0
+fi
+
+for sys in /sys/fs/cgroup/*; do
+	if [ -d $sys ]; then
+		umount $sys
+	fi
+	if [ -d $sys ]; then
+		rmdir $sys || true
+	fi
+done
+
+# Always unmount cgroup first
+if ! umount /sys/fs/cgroup ; then
+    echo 'failed to unmount /sys/fs/cgroup'
+    exit 1
+fi
+
+exit 0
