@@ -1,0 +1,19 @@
+Package:	docker
+Version:	17.12.1
+Packager:	TFL
+Email:
+Homepage:	https://docker.com
+Description:	Docker container management
+Icon:	        docker.png
+AddonShowName:	Docker
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:      
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
