@@ -19,7 +19,7 @@ cp -rf $path_src $NAS_PROG
 # get current architecture
 ARCH="$(uname -m)"
 if [ ${ARCH} -ne "x86_64"]; then
-    ARCH="armel"
+    ARCH="armhf"
 fi
 
 # download docker binaries
