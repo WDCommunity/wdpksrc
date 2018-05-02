@@ -1,0 +1,140 @@
+#!/bin/sh
+#source /root/.profile  # Get Environment Variables from Root Profile
+
+# TODO: use this to detect mono
+if ! type mono 2>/dev/null; then
+    for d in "/shares/Volume_1/Nas_Prog"; do
+        if [ -x "$d/bin/mono" ]; then
+            PATH="$PATH:$d/bin"
+            export PATH
+            break
+        fi
+    done
+fi
+
+NASPROG="/shares/Volume_1/Nas_Prog"
+
+# Package Variables
+PACKAGE_NAME_SIMPLE="duplicati"
+PACKAGE_DIR="/home/stefaan/Documents/projects/wd/spksrc/packages/duplicati/package"
+PACKAGE_DIR="${NASPROG}/${PACKAGE_NAME_SIMPLE}"
+PACKAGE_UPGRADE_FLAG="/tmp/${PACKAGE_NAME_SIMPLE}.upgrade"
+
+# Mono Variables
+MONO_DIR="${NASPROG}/mono"
+MONO_LIBS="${MONO_DIR}/libs"
+MONO="${MONO_DIR}/bin/mono"
+echo "This is mono: $(ls -l $MONO)"
+
+
+# We need more space than what /tmp holds
+PACKAGE_TEMP_DIR="${PACKAGE_DIR}/temp"
+
+# Disable Synology auth mechanism
+SYNO_DSM_AUTH=0
+
+# Start & Stop Varables
+PID_FILE="/var/run/${PACKAGE_NAME_SIMPLE}.pid"
+
+DaemonStart() {
+	DaemonStatus
+	if [ $? = 0 ]; then
+		echo "Starting ${PACKAGE_NAME_SIMPLE}."
+
+		mkdir -p "${PACKAGE_TEMP_DIR}"
+
+                LD_LIBRARY_PATH=${MONO_LIBS} \
+		SYNO_DSM_AUTH=${SYNO_DSM_AUTH} \
+		TMP_DIR="${PACKAGE_TEMP_DIR}" \
+		TEMP="${PACKAGE_TEMP_DIR}" \
+		"$MONO" "${PACKAGE_DIR}/Duplicati.Server.exe" &
+		echo $! > "$PID_FILE"		
+
+                # TODO: use a lighttpd conf for WD MyCloud
+		#cp -f ${PACKAGE_DIR}/dsm.duplicati.conf /usr/local/etc/nginx/conf.d/
+
+	else
+		echo "${PACKAGE_NAME_SIMPLE} already running."
+	fi
+}
+
+DaemonDebug() {
+	DaemonStatus
+}
+
+DaemonStop() {
+	DaemonStatus
+	if [ $? == 1 ]; then
+		echo "Stopping ${PACKAGE_NAME_SIMPLE}."
+		kill $(cat "$PID_FILE");
+		rm -f "$PID_FILE"
+		# TODO: use a lighttpd conf for WD MyCloud
+		#rm -f /usr/local/etc/nginx/conf.d/dsm.duplicati.conf
+
+		sleep 3
+	else
+		echo "Nothing to stop for ${PACKAGE_NAME_SIMPLE}."
+	fi
+}
+
+DaemonStatus() {
+	if [ -f "$PID_FILE" ]; then
+		PID=$(cat "$PID_FILE")
+		
+		if [ -n "$(ps | grep $PID | grep -vn "grep $PID")" ]; then
+			echo "${PACKAGE_NAME_SIMPLE} is running ..."
+			return 1  # is running
+		else
+			echo "${PACKAGE_NAME_SIMPLE} is NOT running ..."
+			rm -f ${PID_FILE}  # Remove Invalid PID
+			return 0  # is NOT running
+		fi
+	else
+		echo "${PACKAGE_NAME_SIMPLE} is NOT running ...."
+		return 0  # is NOT running
+	fi
+}
+
+case $1 in
+	start)
+		DaemonStart
+		sleep 1
+		DaemonStatus
+		exit $(( ! $? ))  # [ $? == 1 ] && exit 0 || exit 1  # this if statement flips the boolean outcome.
+	;;
+	stop)
+		DaemonStop
+		sleep 1
+		DaemonStatus
+		exit $?
+	;;
+	restart)
+		DaemonStop
+		sleep 10
+		DaemonStart
+		sleep 1
+		DaemonStatus
+		exit $(( ! $? ))  # this if statement flips the boolean outcome.
+	;;
+	status)
+		DaemonStatus
+		exit $(( ! $? ))  # this if statement flips the boolean outcome.
+	;;
+	debug)
+		DaemonDebug
+		exit 0
+	;;
+	log-show)
+		exit 0
+	;;
+	log-clear)
+		exit 0
+	;;
+	log)
+		exit 0
+	;;
+	*)
+		echo "Usage: $0 {start|stop|restart|status|debug|log|log-show|log-clear}"
+		exit 1
+	;;
+esac
