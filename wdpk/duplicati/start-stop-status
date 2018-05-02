@@ -16,13 +16,12 @@ NASPROG="/shares/Volume_1/Nas_Prog"
 
 # Package Variables
 PACKAGE_NAME_SIMPLE="duplicati"
-PACKAGE_DIR="/home/stefaan/Documents/projects/wd/spksrc/packages/duplicati/package"
-PACKAGE_DIR="${NASPROG}/${PACKAGE_NAME_SIMPLE}"
+PACKAGE_DIR="${NASPROG}/${PACKAGE_NAME_SIMPLE}/package"
 PACKAGE_UPGRADE_FLAG="/tmp/${PACKAGE_NAME_SIMPLE}.upgrade"
 
 # Mono Variables
 MONO_DIR="${NASPROG}/mono"
-MONO_LIBS="${MONO_DIR}/libs"
+MONO_LIBS="${MONO_DIR}/lib"
 MONO="${MONO_DIR}/bin/mono"
 echo "This is mono: $(ls -l $MONO)"
 
