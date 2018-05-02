@@ -1,0 +1,19 @@
+Package:	duplicati
+Version:	0.01
+Packager:	TFL
+Email:
+Homepage:	https://www.duplicati.com
+Description:	Free backup software to store backups online with strong encryption. Works with FTP, SSH, WebDAV, OneDrive, Amazon S3, Google Drive and many others.
+Icon:	duplicati.png
+AddonShowName:	Duplicati
+AddonIndexPage:	index.html
+AddonUsedPort:
+InstDepend:
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
