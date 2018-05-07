@@ -20,7 +20,7 @@ MONO_DIR="${NASPROG}/mono"
 MONO_LIB="${MONO_DIR}/lib"
 MONO="${MONO_DIR}/bin/mono"
 if [ ! -d "${MONO_DIR}/bin/mono"]; then
-    ARCH="uname -r"
+    ARCH="uname -m"
     
     # download the mono build based from the synocommunity project
     wget https://github.com/WDCommunity/wdpksrc/releases/tag/duplicati/mono-$ARCH-6.1_5.8.0.108-11.tar --no-check-certificate
