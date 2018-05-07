@@ -16,11 +16,18 @@ If you can't find an answer, or if you want to open a package request, read `CON
 Setup Development Environment
 -----------------------------
 
+mksapkg setup
+^^^^^^^^^^^^^
+
+For simple script based apps (like most of the current packages), you only need mksapkg to create a binary.
+
 On Ubuntu 16.04:
 
-    apt-get update
-
     apt-get install libxml2:i386
+
+If you want to compile native apps, read the instructions to setup a toolchain below. 
+
+Note: work in progress ...
 
 Docker
 ^^^^^^
