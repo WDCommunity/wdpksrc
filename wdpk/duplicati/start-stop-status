@@ -48,7 +48,7 @@ DaemonStart() {
 		SYNO_DSM_AUTH=${SYNO_DSM_AUTH} \
 		TMP_DIR="${PACKAGE_TEMP_DIR}" \
 		TEMP="${PACKAGE_TEMP_DIR}" \
-		"$MONO" "${PACKAGE_DIR}/Duplicati.Server.exe" "$OPTIONS" &
+		$MONO "${PACKAGE_DIR}/Duplicati.Server.exe" $OPTIONS &
 		echo $! > "$PID_FILE"		
 
                 # TODO: use a lighttpd conf for WD MyCloud
