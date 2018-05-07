@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #source /root/.profile  # Get Environment Variables from Root Profile
 
 # TODO: use this to detect mono
@@ -42,11 +42,13 @@ DaemonStart() {
 
 		mkdir -p "${PACKAGE_TEMP_DIR}"
 
+                OPTIONS="--webservice-interface=any --log-file=/var/log/duplicati.log --log-level=info"
+
                 LD_LIBRARY_PATH=${MONO_LIBS} \
 		SYNO_DSM_AUTH=${SYNO_DSM_AUTH} \
 		TMP_DIR="${PACKAGE_TEMP_DIR}" \
 		TEMP="${PACKAGE_TEMP_DIR}" \
-		"$MONO" "${PACKAGE_DIR}/Duplicati.Server.exe" &
+		"$MONO" "${PACKAGE_DIR}/Duplicati.Server.exe" "$OPTIONS" &
 		echo $! > "$PID_FILE"		
 
                 # TODO: use a lighttpd conf for WD MyCloud
