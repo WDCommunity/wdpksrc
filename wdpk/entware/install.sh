@@ -20,7 +20,7 @@ echo "APKG_DEBUG: mount $OPT_ROOT to /opt" >> $LOG
 mount --bind ${OPT_ROOT} /opt
 
 ARCH="$(uname -m)"
-if [ ${ARCH} = "x86_64"]; then
+if [ ${ARCH} = "x86_64" ]; then
     ENT_ARCH="x86-64"
 else
     ENT_ARCH="arm7"
