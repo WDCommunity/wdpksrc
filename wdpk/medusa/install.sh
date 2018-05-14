@@ -27,7 +27,7 @@ ORIG_DIR=$(pwd)
 cd $APKG_PATH
 
 echo "get the latest stable version from github" >> $log
-git clone git://github.com/pymedusa/Medusa >> $log 2>&1
+git clone https://github.com/pymedusa/Medusa >> $log 2>&1
 
 echo "update the bootscript to the local git repo" >> $log
 sed -i "s|^PKG_DIR=.*|PKG_DIR=$APKG_PATH|" $APKG_PATH/bootscript 
