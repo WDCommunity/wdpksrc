@@ -42,7 +42,7 @@ RUNAS="medusa"
 PYTHON="${PYTHON_DIR}/python2.7"
 SICKBEARD="${INSTALL_DIR}/SickBeard.py"
 CFG_FILE="${PKG_DIR}/settings.conf"
-PID_FILE="${PKG_DIR}/medusa.pid"
+PID_FILE="/var/run/medusa.pid"
 LOG_FILE="${PKG_DIR}/logs/medusa.log"
 
 
