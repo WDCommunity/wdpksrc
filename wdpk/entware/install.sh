@@ -23,7 +23,7 @@ ARCH="$(uname -m)"
 if [ ${ARCH} = "x86_64" ]; then
     ENT_ARCH="x86-64"
 else
-    ENT_ARCH="arm7"
+    ENT_ARCH="armv7"
 fi
 
 echo "APKG_DEBUG: download and install entware-ng for $ARCH" >> $LOG
