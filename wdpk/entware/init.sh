@@ -18,13 +18,14 @@ fi
 
 # add wd opt dir again
 WDOPT=/usr/local/modules/opt/wd
-ln -s $WDOPT /opt/wd
+ln -sf $WDOPT /opt/wd
 
 # update profile
 PROFILE=/etc/profile
 [ ! -f $PROFILE ] && cp $APPDIR/profile $PROFILE
 
 # restore home dir
+mkdir -p /home/root
 rsync -a ${APPDIR}/home/ /home/root
 
 # link web to /var/www just for the app icon
