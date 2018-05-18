@@ -18,8 +18,12 @@ rsync -a /home/root/ "${APPDIR}/home"
 umount /opt
 
 if [ ! $? eq 0 ] ; then
-   echo "Entware clean umount failed"
+   echo "Entware clean umount failed" >> $LOG
    fuser -cv /opt | tee -a $LOG
+   echo "Kill them all" >> $LOG
+   fuser -ck /opt
+   sleep 2
+   umount /opt
 fi
 
 # remove bin
