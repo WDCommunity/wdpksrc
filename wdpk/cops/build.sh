@@ -15,12 +15,13 @@ done
 
 echo "Move binaries"
 
-mkdir -p ../../packages
+RELEASE_DIR="../../packages/${APP_NAME}"
+mkdir -p "${RELEASE_DIR}"
 find .. -maxdepth 1 -name "*.bin*" -exec rename 's#\('$DATE'\)##' {} \;
-mv ../*.bin ../../packages
+mv ../*.bin "${RELEASE_DIR}"
 
 echo "Bundle sources"
-SRC_TAR="../../packages/${APP_NAME}_src_${VERSION}.tar.gz"
+SRC_TAR="${RELEASE_DIR}/${APP_NAME}_src_${VERSION}.tar.gz"
 tar -czf $SRC_TAR .
 
 
