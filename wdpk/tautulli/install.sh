@@ -19,13 +19,13 @@ cp -f ${APKG_CONFIG} ${APKG_BACKUP_CONFIG}
 cp -rf $path_src $path_dst
 
 # download the latest PlexPy package from github
-wget https://github.com/Tautulli/Tautulli/archive/master.zip --no-check-certificate -P "${APKG_PATH}"
+wget https://github.com/Tautulli/Tautulli/archive/master.zip --no-check-certificate -P "${APKG_PATH}" 2>&1 >> $log
 
 result=$?
 echo "Download ${APKG_MODULE} RC: $result" >> $log
 
 # unpack plexpy-master
-unzip "${APKG_PATH}/master.zip" -d "${APKG_PATH}"
+unzip "${APKG_PATH}/master.zip" -d "${APKG_PATH}" 2>&1 >> $log
 
 result=$?
 echo "Unpack RC: $result" >> $log
