@@ -5,8 +5,8 @@ Email:
 Homepage:	https://emby.media
 Description:	Your personal media on any device
 Icon:	        emby.png
-AddonShowName:	Emby media server
-AddonIndexPage:	index.php
+AddonShowName:	Emby Media Server
+AddonIndexPage:	index.html
 AddonUsedPort:	
 InstDepend:     entware  
 InstConflict:
