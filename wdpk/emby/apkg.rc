@@ -1,0 +1,19 @@
+Package:	emby
+Version:	0.01
+Packager:	TFL
+Email:
+Homepage:	https://emby.media
+Description:	Your personal media on any device
+Icon:	        emby.png
+AddonShowName:	Emby Media Server
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:     entware  
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
