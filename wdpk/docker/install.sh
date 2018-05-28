@@ -24,7 +24,7 @@ fi
 
 # download docker binaries
 cd "${APKG_PATH}"
-wget "https://download.docker.com/linux/static/stable/${ARCH}/docker-17.12.1-ce.tgz" --no-check-certificate
+wget "https://download.docker.com/linux/static/stable/${ARCH}/docker-18.03.1-ce.tgz" --no-check-certificate
 
 # extract the package
 tar xzf docker-17.12.1-ce.tgz >> $log 2>&1
