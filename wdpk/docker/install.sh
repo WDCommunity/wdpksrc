@@ -18,19 +18,20 @@ cp -rf $path_src $NAS_PROG
 
 # get current architecture
 ARCH="$(uname -m)"
-if [ ${ARCH} -ne "x86_64"]; then
-    ARCH="armhf"
+if [ ${ARCH} -ne "x86_64" ]; then
+    ARCH="armel"
 fi
 
 # download docker binaries
 cd "${APKG_PATH}"
-wget "https://download.docker.com/linux/static/stable/${ARCH}/docker-18.03.1-ce.tgz" --no-check-certificate
+TARBALL="docker-18.03.1-ce.tgz"
+wget "https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}" --no-check-certificate
 
 # extract the package
-tar xzf docker-18.03.1-ce.tgz >> $log 2>&1
+tar xzf ${TARBALL} >> $log 2>&1
 
 # remove the package
-rm docker-18.03.1-ce.tgz
+rm ${TARBALL}
 
 # stop original docker v1.7
 if [ -e "${ORIG_DAEMONSH}" ]; then
