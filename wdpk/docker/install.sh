@@ -27,10 +27,10 @@ cd "${APKG_PATH}"
 wget "https://download.docker.com/linux/static/stable/${ARCH}/docker-18.03.1-ce.tgz" --no-check-certificate
 
 # extract the package
-tar xzf docker-17.12.1-ce.tgz >> $log 2>&1
+tar xzf docker-18.03.1-ce.tgz >> $log 2>&1
 
 # remove the package
-rm docker-17.12.1-ce.tgz
+rm docker-18.03.1-ce.tgz
 
 # stop original docker v1.7
 if [ -e "${ORIG_DAEMONSH}" ]; then
