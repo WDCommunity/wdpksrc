@@ -27,6 +27,16 @@ On Ubuntu 16.04:
     
 Ensure you have openssl v1.0.x, not openssl v1.1+.
 
+Docker
+^^^^^^
+
+The build environment is also available in a docker image.
+
+    docker build -t wdpk .
+    docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash
+    cd wdpk/<somepackage>
+    ./build.sh
+
 Native apps
 ^^^^^^^^^^^
 
