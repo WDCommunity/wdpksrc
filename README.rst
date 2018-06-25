@@ -24,6 +24,8 @@ For simple script based apps (like most of the current packages), you only need 
 On Ubuntu 16.04:
 
     apt-get install libxml2:i386
+    
+Ensure you have openssl v1.0.x, not openssl v1.1+.
 
 Native apps
 ^^^^^^^^^^^
