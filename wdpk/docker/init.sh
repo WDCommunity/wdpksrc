@@ -7,7 +7,7 @@ log=/tmp/debug_apkg
 
 echo "INIT linking files from path: $path" >> $log
 
-# copy binaries.. symlinks don't work!
+# setup binaries in PATH before the original v1.7 binaries
 ln -s $(readlink -f ${APPDIR})/docker/* /sbin
 
 # disable default docker by moving the original start script

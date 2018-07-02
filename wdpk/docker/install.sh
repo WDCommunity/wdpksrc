@@ -43,8 +43,8 @@ else
     echo "No orig daemon found"
 fi
 
-# copy binaries
-cp "${APKG_PATH}"/docker/* /sbin
+# setup docker binaries in PATH so they are found before the 1.7 binaries
+ln -s $(readlink -f ${APKG_PATH})/docker/* /sbin
 
 # setup persistent docker root directory
 DROOT=${NAS_PROG}/_docker
