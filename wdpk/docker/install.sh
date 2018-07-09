@@ -18,14 +18,19 @@ cp -rf $path_src $NAS_PROG
 
 # get current architecture
 ARCH="$(uname -m)"
-if [ ${ARCH} != "x86_64" ]; then
-    ARCH="armel"
-fi
 
 # download docker binaries
 cd "${APKG_PATH}"
 TARBALL="docker-18.03.1-ce.tgz"
-wget "https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}" --no-check-certificate
+
+if [ ${ARCH} != "x86_64" ]; then
+    ARCH="armel"
+    # JediNite provides custom docker packages for ARM
+    # They are based on docker-runc without seccomp, as the kernel doesn't support it
+    wget "https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/${TARBALL}" --no-check-certificate
+else
+    wget "https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}" --no-check-certificate
+fi
 
 # extract the package
 tar xzf ${TARBALL} >> $log 2>&1
@@ -43,8 +48,8 @@ else
     echo "No orig daemon found"
 fi
 
-# copy binaries
-cp "${APKG_PATH}"/docker/* /sbin
+# setup docker binaries in PATH so they are found before the 1.7 binaries
+ln -s $(readlink -f ${APKG_PATH})/docker/* /sbin
 
 # setup persistent docker root directory
 DROOT=${NAS_PROG}/_docker
