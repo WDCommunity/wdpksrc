@@ -21,7 +21,7 @@ ARCH="$(uname -m)"
 
 # download docker binaries
 cd "${APKG_PATH}"
-TARBALL="docker-18.03.1-ce.tgz"
+TARBALL="docker-18.06.0-ce.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
     ARCH="armel"
