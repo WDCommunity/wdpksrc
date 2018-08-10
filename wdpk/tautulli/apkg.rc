@@ -1,5 +1,5 @@
 Package:	tautulli
-Version:	2.1.9
+Version:	2.1.18
 Packager:	TFL
 Email:
 Homepage:	https://tautulli.com
@@ -10,7 +10,7 @@ AddonIndexPage:	index.html
 AddonUsedPort:	
 InstDepend:     
 InstConflict:
-StartDepend:
+StartDepend:    entware
 StartConflict:
 CenterType:
 UserControl:
