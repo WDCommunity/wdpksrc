@@ -1,0 +1,19 @@
+Package:	cuberite
+Version:	0.01
+Packager:	TFL
+Email:
+Homepage:	https://github.com/cuberite/cuberite
+Description:	A Minecraft-compatible multiplayer game server
+Icon:		cuberite.png
+AddonShowName:	Cuberite
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:	entware
+InstConflict:
+StartDepend:	entware
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
