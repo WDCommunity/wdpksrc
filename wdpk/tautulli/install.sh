@@ -23,10 +23,12 @@ mv cacert.pem /etc/ssl/cert.pem
 
 # install pip to get pkg_resources module
 /opt/bin/opkg install python-light python-pip git git-http
+[ ! $? -eq 0 ] && exit 2
 
 # get the Tautulli source code
 cd ${APKG_PATH}
 /opt/bin/git clone https://github.com/Tautulli/Tautulli.git
+[ ! $? -eq 0 ] && exit 3
 
 # restore config
 if [ -f ${APKG_CONFIG_BACKUP} ]; then
