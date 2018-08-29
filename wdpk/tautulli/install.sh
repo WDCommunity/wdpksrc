@@ -10,9 +10,9 @@ log=/tmp/debug_apkg
 APKG_MODULE="tautulli"
 APKG_PATH="${NAS_PROG}/${APKG_MODULE}"
 APKG_CONFIG="${APKG_PATH}/config.ini"
-APKG_CONFIG_BACKUP="/mnt/HD/HD_a2/.systemfile/{APKG_MODULE}.ini"
+APKG_CONFIG_BACKUP="/mnt/HD/HD_a2/.systemfile/${APKG_MODULE}.ini"
 DATA_DIR="${APKG_PATH}/data"
-DATA_DIR_BACKUP="/mnt/HD/HD_a2/.systemfile/{APKG_MODULE}_data"
+DATA_DIR_BACKUP="/mnt/HD/HD_a2/.systemfile/${APKG_MODULE}_data/"  # note the trailing slash
 
 # install all package scripts to the proper location
 cp -rf ${INSTALL_DIR} ${NAS_PROG}
