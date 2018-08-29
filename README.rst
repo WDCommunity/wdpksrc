@@ -1,17 +1,9 @@
 wdpksrc
 =======
-wdpksrc is a cross compilation framework intended to compile and package software for Western Digital NAS devices. Packages are made available via the `WDCommunity website`_. This is a fork of `SynoCommunity`_.
+wdpksrc is a cross compilation framework intended to compile and package software for Western Digital My Cloud (OS3) NAS devices. Packages are made available via the `WDCommunity website`_. 
+This is a heavily inspired by the `SynoCommunity`_ project.
 
-WDCommunity provides packages for Western Digital-branded NAS devices.
-Packages are provided for free and made by developers on their free time. See how you can contribute.
-
-Many packages are published on the WD `community forum`_.
-
-Contributing
-------------
-Before opening a new issue, check the `FAQ`_ and search open issues.
-If you can't find an answer, or if you want to open a package request, read `CONTRIBUTING`_ to make sure you include all the information needed for contributors to handle your request.
-
+Most of the packages are published on the WD `community forum`_ in their own thread. Use the search bar.
 
 Setup Development Environment
 -----------------------------
@@ -27,7 +19,7 @@ On Ubuntu 16.04:
 
     apt-get install libxml2:i386
     
-Ensure you have openssl v1.0.x, not openssl v1.1+.
+Ensure you have openssl v1.0.x, not openssl v1.1+ (as is the case on Ubuntu 18).
 
 Docker
 ^^^^^^
