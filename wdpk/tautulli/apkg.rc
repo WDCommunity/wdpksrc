@@ -8,7 +8,7 @@ Icon:	        tautulli.png
 AddonShowName:	Tautulli
 AddonIndexPage:	index.html
 AddonUsedPort:	
-InstDepend:     
+InstDepend:     entware
 InstConflict:
 StartDepend:    entware
 StartConflict:

@@ -2,13 +2,13 @@
 
 [ -f /tmp/debug_apkg ] && echo "APKG_DEBUG: $0 $@" >> /tmp/debug_apkg
 
-INSTALL_DIR=$1
-NAS_PROG=$2
+INSTALL_DIR=$(readlink -f $1)
+NAS_PROG=$(readlink -f $2)
 
 log=/tmp/debug_apkg
 
 APKG_MODULE="tautulli"
-APKG_PATH="${path_dst}/${APKG_MODULE}"
+APKG_PATH="${NAS_PROG}/${APKG_MODULE}"
 APKG_CONFIG="${APKG_PATH}/config.ini"
 APKG_CONFIG_BACKUP="/mnt/HD/HD_a2/.systemfile/{APKG_MODULE}.ini"
 DATA_DIR="${APKG_PATH}/data"
@@ -25,6 +25,7 @@ mv cacert.pem /etc/ssl/cert.pem
 /opt/bin/opkg install python-light python-pip git git-http
 
 # get the Tautulli source code
+cd ${APKG_PATH}
 /opt/bin/git clone https://github.com/Tautulli/Tautulli.git
 
 # restore config
