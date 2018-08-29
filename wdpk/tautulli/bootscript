@@ -34,9 +34,11 @@ DNAME="Tautulli"
 # Others
 PKG_DIR="/shares/Volume_1/Nas_Prog/${PACKAGE}"
 INSTALL_DIR="${PKG_DIR}/${DNAME}"
+DATA_DIR="${PKG_DIR}/data"
 PYTHON_DIR="/opt/bin"
 PATH="${INSTALL_DIR}/bin:${INSTALL_DIR}/env/bin:/opt/bin:/opt/sbin:/usr/local/bin:/bin:/usr/bin"
 RUNAS="tautulli"
+PORT=8282
 PYTHON="${PYTHON_DIR}/python2.7"
 PLEXPY="${INSTALL_DIR}/PlexPy.py"
 CFG_FILE="${PKG_DIR}/config.ini"
@@ -47,10 +49,13 @@ LOG_FILE="${PKG_DIR}/logs/tautulli.log"
 start_daemon ()
 {
     if [ 1 ]; then
-        PATH=${PATH} ${PYTHON} ${PLEXPY} --datadir ${INSTALL_DIR} --daemon --pidfile ${PID_FILE} --config ${CFG_FILE} --nolaunch
+        PATH=${PATH} ${PYTHON} ${PLEXPY} --port ${PORT} \
+		                         --datadir ${DATA_DIR} \
+	                                 --daemon --pidfile ${PID_FILE} \
+	                                 --config ${CFG_FILE} --nolaunch
     else
-        # TODO: create user in init.sh
-        su ${RUNAS} -c "PATH=${PATH} ${PYTHON} ${PLEXPY} --daemon --pidfile ${PID_FILE} --config ${CFG_FILE}" --nolaunch
+	# TODO: create user in init.sh
+        echo "TODO"
     fi
 }
 
