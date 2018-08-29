@@ -1,5 +1,5 @@
 Package:	tautulli
-Version:	2.1.18
+Version:	2.1.18b
 Packager:	TFL
 Email:
 Homepage:	https://tautulli.com
@@ -8,7 +8,7 @@ Icon:	        tautulli.png
 AddonShowName:	Tautulli
 AddonIndexPage:	index.html
 AddonUsedPort:	
-InstDepend:     
+InstDepend:     entware
 InstConflict:
 StartDepend:    entware
 StartConflict:

@@ -1,0 +1,121 @@
+#!/bin/sh
+# inspired by synology start-stop script 
+
+# Output of PlexPy.py --help
+#
+# usage: PlexPy.py [-h] [-v] [-q] [-d] [-p PORT] [--dev] [--datadir DATADIR]
+#                  [--config CONFIG] [--nolaunch] [--pidfile PIDFILE] [--nofork]
+#
+# A Python based monitoring and tracking tool for Plex Media Server.
+#
+# optional arguments:
+#   -h, --help            show this help message and exit
+#   -v, --verbose         Increase console logging verbosity
+#   -q, --quiet           Turn off console logging
+#   -d, --daemon          Run as a daemon
+#   -p PORT, --port PORT  Force Tautulli to run on a specified port
+#   --dev                 Start Tautulli in the development environment
+#   --datadir DATADIR     Specify a directory where to store your data files
+#   --config CONFIG       Specify a config file to use
+#   --nolaunch            Prevent browser from launching on startup
+#   --pidfile PIDFILE     Create a pid file (only relevant when running as a
+#                         daemon)
+#   --nofork              Start Tautulli as a service, do not fork when
+#                         restarting
+
+
+# Fix for language issues
+export LANG=en_US.UTF8
+
+# Package
+PACKAGE="tautulli"
+DNAME="Tautulli"
+
+# Others
+PKG_DIR="/shares/Volume_1/Nas_Prog/${PACKAGE}"
+INSTALL_DIR="${PKG_DIR}/${DNAME}"
+DATA_DIR="${PKG_DIR}/data"
+PYTHON_DIR="/opt/bin"
+PATH="${INSTALL_DIR}/bin:${INSTALL_DIR}/env/bin:/opt/bin:/opt/sbin:/usr/local/bin:/bin:/usr/bin"
+RUNAS="tautulli"
+PORT=8282
+PYTHON="${PYTHON_DIR}/python2.7"
+PLEXPY="${INSTALL_DIR}/PlexPy.py"
+CFG_FILE="${PKG_DIR}/config.ini"
+PID_FILE="/var/run/tautulli.pid"
+LOG_FILE="${PKG_DIR}/logs/tautulli.log"
+
+
+start_daemon ()
+{
+    if [ 1 ]; then
+        PATH=${PATH} ${PYTHON} ${PLEXPY} --port ${PORT} \
+		                         --datadir ${DATA_DIR} \
+	                                 --daemon --pidfile ${PID_FILE} \
+	                                 --config ${CFG_FILE} --nolaunch
+    else
+	# TODO: create user in init.sh
+        echo "TODO"
+    fi
+}
+
+stop_daemon()
+{
+    kill $(cat ${PID_FILE})
+    wait_for_status 1 20
+    rm -f ${PID_FILE}
+}
+
+daemon_status()
+{
+    if [ -f ${PID_FILE} ] && [ -d /proc/$(cat ${PID_FILE}) ]; then
+        return 0
+    fi
+    return 1
+}
+
+wait_for_status()
+{
+    counter=$2
+    while [ ${counter} -gt 0 ]; do
+                daemon_status
+        [ $? -eq $1 ] && break
+                counter=`expr $counter - 1`
+        sleep 1
+    done
+}
+
+case $1 in
+    start)
+        if daemon_status; then
+                        echo ${DNAME} is already running
+        else
+                        echo Starting ${DNAME} ...
+            start_daemon
+        fi
+        ;;
+    stop)
+        if daemon_status; then
+                        echo Stopping ${DNAME} ...
+            stop_daemon
+        else
+                        echo ${DNAME} is not running
+        fi
+        ;;
+    status)
+        if daemon_status; then
+                        echo ${DNAME} is running
+            exit 0
+        else
+                        echo ${DNAME} is not running
+            exit 1
+        fi
+        ;;
+    log)
+        echo ${LOG_FILE}
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+
