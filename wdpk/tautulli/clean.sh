@@ -5,8 +5,8 @@
 APP=plexpy
 WEBPATH="/var/www/$APP"
 
-# remove bin
-# it just uses python
+# remove bootscript
+rm /opt/etc/init.d/S43Tautulli.sh
 
 # remove lib
 
