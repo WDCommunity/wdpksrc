@@ -7,9 +7,9 @@ path=$1
 rm -rf $path
 
 # remove bootscript
-rm -f /opt/etc/init.d/S91Medusa
+rm -f /opt/etc/init.d/S63Cuberite
 
 # remove lib
 
 # remove web
-rm -rf /var/www/medusa
+rm -rf /var/www/cuberite
