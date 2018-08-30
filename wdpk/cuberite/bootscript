@@ -1,0 +1,98 @@
+#!/bin/sh
+# inspired by synocommunity start-stop-script
+
+# Output of Server/Cuberite --help
+
+#USAGE:
+#
+#    ./Cuberite  [-d] [--no-log-file] [--no-output-buffering]
+#                [--crash-dump-globals] [--crash-dump-full] [--log-comm-out]
+#                [--log-comm-in] [--log-comm] [-p <port>] ...  [-c <string>]
+#                [-s <number>] [--] [--version] [-h]
+#
+#
+
+# Fix for language issues
+export LANG=en_US.UTF8
+
+# Package
+PACKAGE="cuberite"
+DNAME="Cuberite"
+
+# Others
+PKG_DIR="/shares/Volume_1/Nas_Prog/${PACKAGE}"
+BINARY="${PKG_DIR}/${DNAME}"
+WORLD_DATA="/shares/Volume_1/${PACKAGE}"
+PATH="${PKG_DIR}:/opt/bin:/opt/sbin:/usr/local/bin:/bin:/usr/bin"
+RUNAS="cuberite"
+
+start_daemon ()
+{
+    cd ${WORLD_DATA}
+    if [ 1 ]; then
+        PATH=${PATH} ${BINARY} -d
+    else
+        # TODO: create cuberite user in init.sh
+        su ${RUNAS} -c "PATH=${PATH} ${DNAME} -d"
+    fi
+}
+
+stop_daemon()
+{
+    kill $(pidof ${DNAME})
+    wait_for_status 1 20
+}
+
+daemon_status()
+{
+    if [ $(pidof ${DNAME}) ]; then
+        return 0
+    fi
+    return 1
+}
+
+wait_for_status()
+{
+    counter=$2
+    while [ ${counter} -gt 0 ]; do
+                daemon_status
+        [ $? -eq $1 ] && break
+                counter=`expr $counter - 1`
+        sleep 1
+    done
+}
+
+case $1 in
+    start)
+        if daemon_status; then
+                        echo ${DNAME} is already running
+        else
+                        echo Starting ${DNAME} ...
+            start_daemon
+        fi
+        ;;
+    stop)
+        if daemon_status; then
+                        echo Stopping ${DNAME} ...
+            stop_daemon
+        else
+                        echo ${DNAME} is not running
+        fi
+        ;;
+    status)
+        if daemon_status; then
+                        echo ${DNAME} is running
+            exit 0
+        else
+                        echo ${DNAME} is not running
+            exit 1
+        fi
+        ;;
+    log)
+        echo ${LOG_FILE}
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+
