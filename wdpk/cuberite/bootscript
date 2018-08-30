@@ -5,7 +5,7 @@
 
 #USAGE: 
 #
-#   ../Cuberite  [-d] [--no-log-file] [--no-output-buffering]
+#    ./Cuberite  [-d] [--no-log-file] [--no-output-buffering]
 #                [--crash-dump-globals] [--crash-dump-full] [--log-comm-out]
 #                [--log-comm-in] [--log-comm] [-p <port>] ...  [-c <string>]
 #                [-s <number>] [--] [--version] [-h]
@@ -20,17 +20,17 @@ PACKAGE="cuberite"
 DNAME="Cuberite"
 
 # Others
-PKG_DIR="/shares/Volume_1/Nas_Prog/${PACKAGE}/Server"
-PYTHON_DIR="/opt/bin"
+PKG_DIR="/shares/Volume_1/Nas_Prog/${PACKAGE}"
+BINARY="${PKG_DIR}/${DNAME}"
+WORLD_DATA="/shares/Volume_1/${PACKAGE}"
 PATH="${PKG_DIR}:/opt/bin:/opt/sbin:/usr/local/bin:/bin:/usr/bin"
 RUNAS="cuberite"
 
-
 start_daemon ()
 {
-    cd ${PKG_DIR}
+    cd ${WORLD_DATA}
     if [ 1 ]; then
-        PATH=${PATH} ${DNAME} -d
+        PATH=${PATH} ${BINARY} -d
     else
         # TODO: create cuberite user in init.sh
         su ${RUNAS} -c "PATH=${PATH} ${DNAME} -d"
@@ -39,14 +39,13 @@ start_daemon ()
 
 stop_daemon()
 {
-    kill $(cat ${PID_FILE})
+    kill $(pidof ${DNAME})
     wait_for_status 1 20
-    rm -f ${PID_FILE}
 }
 
 daemon_status()
 {
-    if [ -f ${PID_FILE} ] && [ -d /proc/$(cat ${PID_FILE}) ]; then
+    if [ $(pidof ${DNAME}) ]; then
         return 0
     fi
     return 1

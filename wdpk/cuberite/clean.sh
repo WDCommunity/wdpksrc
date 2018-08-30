@@ -2,10 +2,11 @@
 
 [ -f /tmp/debug_apkg ] && echo "APKG_DEBUG: $0 $@" >> /tmp/debug_apkg
 
-WEBPATH="/var/www/medusa"
+WEBPATH="/var/www/cuberite"
 
 # remove bootscript
-rm -f /opt/etc/init.d/S91Medusa
+/opt/etc/init.d/S62Cuberite stop
+rm -f /opt/etc/init.d/S62Cuberite
 
 # remove lib
 
