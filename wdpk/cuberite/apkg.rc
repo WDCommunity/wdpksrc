@@ -7,7 +7,7 @@ Description:	A Minecraft-compatible multiplayer game server
 Icon:		cuberite.png
 AddonShowName:	Cuberite
 AddonIndexPage:	index.html
-AddonUsedPort:	
+AddonUsedPort:
 InstDepend:	entware
 InstConflict:
 StartDepend:	entware
