@@ -6,10 +6,10 @@
 #
 #  ./build_and_install package target
 #
-# with 
+# with
 #    package: a wdpk e.g. entware
 #    target: the host to install it on
-# 
+#
 # It's recommended to setup entware + ssh keys first
 #    ssh-copy-id root@host
 #

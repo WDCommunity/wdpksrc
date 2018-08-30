@@ -3,7 +3,7 @@
 
 # Output of Server/Cuberite --help
 
-#USAGE: 
+#USAGE:
 #
 #    ./Cuberite  [-d] [--no-log-file] [--no-output-buffering]
 #                [--crash-dump-globals] [--crash-dump-full] [--log-comm-out]

@@ -51,31 +51,34 @@ fi
 echo "extract the server" >> $log
 tar xf ${TARBALL}
 
-# keep the tarball for when you'd want to setup a clean server later 
-# rm ${TARBALL}                                            
-rm ${TARBALL}.sha1                                                   
-                                                                     
-#echo "update the bootscript to the local git repo" >> $log          
+# keep the tarball for when you'd want to setup a clean server later
+# rm ${TARBALL}
+rm ${TARBALL}.sha1
+
+#echo "update the bootscript to the local git repo" >> $log
 #sed -i "s|^PKG_DIR=.*|PKG_DIR=${APKG_PATH}|" ${APKG_PATH}/bootscript
-                                                                      
-echo "patch the server binary" >> $log                                
-patchelf --set-rpath /opt/lib ${SERVER_BIN}                           
+
+echo "patch the server binary" >> $log
+patchelf --set-rpath /opt/lib ${SERVER_BIN}
 patchelf --set-interpreter /opt/lib/ld-linux-x86-64.so.2 ${SERVER_BIN}
-                                                   
-[[ ! $? -eq 0 ]] && exit 3                                                             
-                                                                                       
-# move the server binary out of the world directory                                    
+
+[[ ! $? -eq 0 ]] && exit 3
+
+# move the server binary out of the world directory
 # the Server directory remains as a reference for those who want to start a fresh world
-mv ${SERVER_BIN} ${APKG_PATH}  
-                                                                       
-# restore previous worlds                                              
-if [ -d ${WORLD_DATA} ] ; then                                         
+mv ${SERVER_BIN} ${APKG_PATH}
+
+# prepare webadmin setup
+cp ${APKG_PATH}/webadmin.ini ${SERVER_DIR}
+
+# restore previous worlds
+if [ -d ${WORLD_DATA} ] ; then
    echo "Addon ${APKG_NAME} (install.sh) found existing worlds" >> $log
-   # no need to setup a world data dir                         
-else                                                                            
+   # no need to setup a world data dir
+else
    echo "Addon ${APKG_NAME} (install.sh) fresh install" >> $log
-   # setup a fresh world data dir                  
-   cp -r ${SERVER_DIR} ${WORLD_DATA}               
+   # setup a fresh world data dir
+   cp -r ${SERVER_DIR} ${WORLD_DATA}
 fi
 
 echo "Addon ${APKG_NAME} (install.sh) done" >> $log
