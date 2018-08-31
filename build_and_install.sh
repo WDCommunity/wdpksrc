@@ -32,14 +32,19 @@ TARGET=$2
 
 [[ -z $TARGET ]] && exit 0
 
-# upload the app
+echo
+echo "Upload the app"
 scp $BINARY root@$TARGET:/mnt/HD/HD_a2/.systemfile/upload/app.bin
 
 cssh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 
-# install the app
+echo
+echo "Install the app"
 $cssh root@$TARGET "/usr/local/modules/usrsbin/upload_apkg -rapp.bin -d -f1 -g1"
 
-# run test hooks
-cd tests/$PACKAGE
-./test.sh
+TEST=tests/$PACKAGE/test.sh
+if [ -e $TEST ]; then
+	echo
+	echo "Run test hooks"
+	PACKAGE=$PACKAGE $TEST
+fi

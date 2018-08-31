@@ -1,9 +1,0 @@
-#!/bin/bash
-
-PACKAGE="cuberite"
-BINARY="Cuberite"
-WORLD_DIR="/shares/Volume_1/cuberite"
-PORT=25565
-WEBGUI_PORT=48080
-
-START_STOP_SCRIPT="/opt/etc/init.d/S63cuberite"
