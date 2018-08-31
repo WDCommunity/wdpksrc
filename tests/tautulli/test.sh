@@ -6,10 +6,6 @@ serverReachable() {
 	return $(nc -z $TARGET $PORT)
 }
 
-webuiReachable() {
-	return $(nc -z $TARGET $WEBGUI_PORT)
-}
-
 count=0
 until serverReachable 
 do
@@ -26,9 +22,3 @@ do
 done
 echo "Server reachable!"
 
-if ! webuiReachable
-then
-	echo "Web UI not reachable"
-	exit 1
-fi
-echo "Web UI reachable!"
