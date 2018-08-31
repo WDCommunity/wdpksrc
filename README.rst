@@ -1,7 +1,6 @@
 wdpksrc
 =======
-wdpksrc is a cross compilation framework intended to compile and package software for Western Digital My Cloud (OS3) NAS devices. Packages are made available via the `WDCommunity website`_. 
-This is a heavily inspired by the `SynoCommunity`_ project.
+This project contains the source and tools for software packages for Western Digital My Cloud (OS3) NAS devices. The packages are made available via the `WDCommunity website`_. Most of the packages are simply scripts to fetch the applications from the official sources and configure them with a sensible default. Only a few packages were compiled with the OS3 toolchain with the help of the `SynoCommunity`_ project tools.
 
 Most of the packages are published on the WD `community forum`_ in their own thread. Use the search bar.
 
@@ -11,7 +10,7 @@ Setup Development Environment
 mksapkg setup
 ^^^^^^^^^^^^^
 
-For simple script based apps (like most of the current packages), you only need mksapkg to create a binary.
+For simple script based apps (most of the current packages), you only need mksapkg to create a binary.
 
 On Ubuntu 16.04:
 
@@ -32,6 +31,15 @@ The build environment is also available in a docker image.
     docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash    
     cd wdpk/<somepackage>    
     ./build.sh
+    
+Build and deploy test
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code::
+
+    ./build_and_install.sh  <package>  <host>
+
+This will build the package, install it on a PR4100 host device and run a sanity check if a test is available.
 
 Native apps
 ^^^^^^^^^^^
