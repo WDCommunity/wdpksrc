@@ -40,4 +40,6 @@ cssh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 # install the app
 $cssh root@$TARGET "/usr/local/modules/usrsbin/upload_apkg -rapp.bin -d -f1 -g1"
 
-# TODO add test hooks
+# run test hooks
+cd wdpk/$PACKAGE
+./test.sh
