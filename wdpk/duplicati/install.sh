@@ -9,6 +9,7 @@ log=/tmp/debug_apkg
 
 APKG_MODULE="duplicati"
 APKG_PATH="${NASPROG}/${APKG_MODULE}"
+DUPLICATI_HOME="${NASPROG}/duplicati_conf"
 
 # install all package scripts to the proper location
 cp -rf $path_src $NASPROG
@@ -35,7 +36,7 @@ else
 fi
 
 echo "Download the official duplicati package for synology" >> $log
-wget https://github.com/duplicati/duplicati/releases/download/v2.0.3.6-2.0.3.6_canary_2018-04-23/duplicati-2.0.3.6_canary_2018-04-23.spk --no-check-certificate
+wget https://github.com/duplicati/duplicati/releases/download/v2.0.3.11-2.0.3.11_canary_2018-09-05/duplicati-2.0.3.11_canary_2018-09-05.spk --no-check-certificate
 
 # extract the spk archive
 mv duplicati*.spk duplicati.tar
@@ -44,6 +45,11 @@ PACKAGE_DIR="${APKG_PATH}/package"
 mkdir -p ${PACKAGE_DIR}
 tar xf package.tgz -C "${PACKAGE_DIR}" >> $log
 rm package.tgz
+
+# create config directory
+if [ ! -d "${DUPLICATI_HOME}" ]; then
+    mkdir -p ${DUPLICATI_HOME}
+fi
 
 echo "Addon ${APKG_MODULE} (install.sh) done" >> $log
 
