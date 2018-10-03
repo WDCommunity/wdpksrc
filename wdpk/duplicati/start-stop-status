@@ -48,6 +48,7 @@ DaemonStart() {
 		SYNO_DSM_AUTH=${SYNO_DSM_AUTH} \
 		TMP_DIR="${PACKAGE_TEMP_DIR}" \
 		TEMP="${PACKAGE_TEMP_DIR}" \
+		DUPLICATI_HOME="${NASPROG}/duplicati_conf" \
 		$MONO "${PACKAGE_DIR}/Duplicati.Server.exe" $OPTIONS &
 		echo $! > "$PID_FILE"		
 
