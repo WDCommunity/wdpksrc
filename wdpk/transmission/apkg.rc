@@ -1,0 +1,19 @@
+Package:	Transmission
+Version:	2.0.8
+Packager:	TFL
+Email:
+Homepage:	https://transmissionbt.com
+Description:	Transmission bittorrent client
+Icon:	        transmission.png
+AddonShowName:	Transmission
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:     entware
+InstConflict:
+StartDepend:    entware
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+LOG="/tmp/debug_apkg"
+
+PKG_NAME="transmission"
+PORT=9091
