@@ -1,0 +1,19 @@
+Package:	tvmosaic
+Version:	1.0.0.16507
+Packager:	TFL
+Email:
+Homepage:	https://tv-mosaic.com
+Description:	Live and recorded TV
+Icon:	        tvmosaic.png
+AddonShowName:	TV Mosaic
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:    
+InstConflict:
+StartDepend:    
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
