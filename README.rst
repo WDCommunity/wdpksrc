@@ -53,21 +53,19 @@ Currently, these custom WD targets are available in this `SynoCommunity fork`_
 * wddl - WD DL2100 / DL4100 with 3.10.28 kernel
 * wdarm - all other devices (firmware version 2.x only!)
 
-Usage
------
 Once you have a development environment set up , you can start building packages, create new ones, or improve upon existing packages while making your changes available to other people.
 See the `Developers HOW TO`_ for information on how to use spksrc.
 
-Note that spksrc creates synology SPK packages. 
+Note that spksrc creates synology SPK packages... these need to be *simplified* to WD apps. 
 
-* rename the .spk package with the .tar extension
-* unpack with `tar xf somepackage.tar`
-* move the bins and libs to your wdpk somepackage
-* modify the start/stop scripts as necessary into the wdpk format, stripped from all synology specific logics.
+* Rename the .spk package with the .tar extension
+* Unpack with `tar xf somepackage.tar`
+* Move the bins and libs to your wdpk somepackage
+* Modify the start/stop scripts as necessary into the wdpk format, stripped from all synology specific logistics. In OS3, basically everything runs as root.
 
 Donate
 ------
-Feel free to donate to the SynoCommunity project.
+Feel free to donate to the SynoCommunity project, the major inspiration for this project.
 
 License
 -------
