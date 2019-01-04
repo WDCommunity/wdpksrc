@@ -36,7 +36,7 @@ else
 fi
 
 echo "Download the official duplicati package for synology" >> $log
-wget https://github.com/duplicati/duplicati/releases/download/v2.0.3.11-2.0.3.11_canary_2018-09-05/duplicati-2.0.3.11_canary_2018-09-05.spk --no-check-certificate
+wget https://github.com/duplicati/duplicati/releases/download/v2.0.4.10-2.0.4.10_canary_2018-12-29/duplicati-2.0.4.10_canary_2018-12-29.spk --no-check-certificate
 
 # extract the spk archive
 mv duplicati*.spk duplicati.tar
