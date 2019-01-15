@@ -1,0 +1,17 @@
+Package:          phpMyAdmin
+Packager:         phpMyAdmin
+Email:            phpmyadmin-devel@lists.sourceforge.net
+Homepage:         http://www.phpmyadmin.net/home_page/index.php
+AddonShowName:    phpMyAdmin
+AddonIndexPage:   index.php
+AddonUsedPort:    80
+InstDepend:
+InstConflict:
+StartDepend:
+StartConflict:
+Description:      An open source, browser-based tool written in PHP that helps with the administration of MySQL and is often used as both an editor and administration assist tool for sites and some content management systems, such as WordPress.
+Version:		  1.04
+Icon:             phpMyAdmin.png
+MinFWVer:
+MaxFWVer:
+IndividualFlag:

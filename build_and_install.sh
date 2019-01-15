@@ -23,7 +23,11 @@ PACKAGE=$1
 docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash -c "cd wdpk/$PACKAGE; ./build.sh ; chown -R 1000:1000 ../../packages/$PACKAGE"
 
 # find latest package
-PRODUCT="PR4100"  # TODO: use env
+if [ -z "$3" ]; then
+  PRODUCT="PR4100"  # TODO: use env
+else
+  PRODUCT="$3"
+fi
 
 BINARY=$(find packages/$PACKAGE -name "*$PRODUCT*$PACKAGE*.bin" | sort | tail -n1)
 echo "Created $BINARY"
