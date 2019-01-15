@@ -68,7 +68,7 @@ DaemonStop() {
 	DaemonStatus
 	if [ $? == 1 ]; then
 		echo "Stopping ${PACKAGE_NAME_SIMPLE}."
-		kill $(ps -ef | awk '/[D]uplicati/{print $1}')  # mono spawns 2 pids!
+		kill $(ps -w | awk '/[D]uplicati/{print $1}')  # mono spawns 2 pids!
 		rm -f "$PID_FILE"
 		# TODO: use a lighttpd conf for WD MyCloud
 		#rm -f /usr/local/etc/nginx/conf.d/dsm.duplicati.conf
