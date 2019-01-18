@@ -12,11 +12,14 @@ APKG_PATH="${path_dst}/${APKG_MODULE}"
 APKG_CONFIG="${APKG_PATH}/nzbget.conf"
 APKG_BACKUP_CONFIG="/mnt/HD/HD_a2/.systemfile/nzbget.conf"
 
-# create backup of nzbget configuration
-cp -f ${APKG_CONFIG} ${APKG_BACKUP_CONFIG}
-
 # install all package scripts to the proper location
-cp -rf $path_src $path_dst
+mv $path_src $path_dst
+
+# setup secure http
+if [ ! -e /etc/ssl/cert.pem ]; then
+    curl --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem
+    mv cacert.pem /etc/ssl/cert.pem
+fi
 
 # download the latest nzbget installer
 wget -O - http://nzbget.net/info/nzbget-version-linux.json | \
