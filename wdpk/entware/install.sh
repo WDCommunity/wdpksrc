@@ -22,6 +22,8 @@ mount --bind ${OPT_ROOT} /opt 2>&1 | tee -a $LOG
 ARCH="$(uname -m)"
 if [ ${ARCH} = "x86_64" ]; then
     ENT_ARCH="x64"
+elif [ ${ARCH} = "armv5tel" ]; then
+    ENT_ARCH="armv5sf"
 else
     ENT_ARCH="armv7sf"
 fi
