@@ -21,13 +21,15 @@ ARCH="$(uname -m)"
 
 # download docker binaries
 cd "${APKG_PATH}"
-TARBALL="docker-18.06.0-ce.tgz"
+TARBALL="docker-18.09.1.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
     ARCH="armel"
     # JediNite provides custom docker packages for ARM
     # They are based on docker-runc without seccomp, as the kernel doesn't support it
-    wget "https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/${TARBALL}" --no-check-certificate
+    # The latest version is not available yet
+    # wget "https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/${TARBALL}" --no-check-certificate
+    wget "https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/docker-18.06.0-ce.tgz" --no-check-certificate
 else
     wget "https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}" --no-check-certificate
 fi
@@ -77,8 +79,8 @@ sleep 1
 
 sleep 3
 
-# install portainer to manage docker
-docker ps | grep portainer
+# install portainer to manage docker, only if there is container Portainer (running or not)
+docker ps -a | grep portainer
 if [ $? = 1 ]; then
     docker run -d -p 9000:9000 --restart always \
                -v /var/run/docker.sock:/var/run/docker.sock \
