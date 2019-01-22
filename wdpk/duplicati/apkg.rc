@@ -8,7 +8,7 @@ Icon:	duplicati.png
 AddonShowName:	Duplicati
 AddonIndexPage:	index.html
 AddonUsedPort:
-InstDepend:
+InstDepend:  mono
 InstConflict:
 StartDepend:
 StartConflict:
