@@ -79,7 +79,7 @@ sleep 1
 
 sleep 3
 
-# install portainer to manage docker, only if there is container Portainer (running or not)
+# install portainer to manage docker, only if there is no container Portainer (running or not)
 docker ps -a | grep portainer
 if [ $? = 1 ]; then
     docker run -d -p 9000:9000 --restart always \
