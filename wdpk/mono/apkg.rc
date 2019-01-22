@@ -1,0 +1,19 @@
+Package:	mono
+Version:	1.00
+Packager:	TFL
+Email:
+Homepage:	https://www.mono-project.com/
+Description:	Software platform designed to allow developers to easily create cross platform applications part of the .NET framework
+Icon:	        mono.png
+AddonShowName:	Mono
+AddonIndexPage:	
+AddonUsedPort:	
+InstDepend:
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
