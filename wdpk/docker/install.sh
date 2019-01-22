@@ -25,11 +25,11 @@ TARBALL="docker-18.09.1.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
     ARCH="armel"
+    TARBALL="docker-18.06.0-ce.tgz"
     # JediNite provides custom docker packages for ARM
     # They are based on docker-runc without seccomp, as the kernel doesn't support it
     # The latest version is not available yet
-    # wget "https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/${TARBALL}" --no-check-certificate
-    wget "https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/docker-18.06.0-ce.tgz" --no-check-certificate
+    wget "https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/${TARBALL}" --no-check-certificate
 else
     wget "https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}" --no-check-certificate
 fi
