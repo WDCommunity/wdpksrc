@@ -1,11 +1,11 @@
 Package:	entware
-Version:	1.04
+Version:	1.05
 Packager:	TFL
 Email:
 Homepage:	https://github.com/Entware/Entware
 Description:	Ultimate repo for embedded devices
 Icon:	        entware.png
-AddonShowName:	Entware-ng
+AddonShowName:	Entware
 AddonIndexPage:	
 AddonUsedPort:	
 InstDepend:
