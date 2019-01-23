@@ -20,8 +20,7 @@ PACKAGE=$1
 # TODO: check if this docker image exists
 
 # create packages
-docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash -c "cd wdpk/$PACKAGE; chown -R root:root . ; ./build.sh"
-#; chown -R 1000:1000 ../../packages/$PACKAGE"
+docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash -c "cd wdpk/$PACKAGE; ./build.sh; chown -R 1000:1000 ../../packages/$PACKAGE"
 
 # find latest package
 PRODUCT="PR4100"  # TODO: use env
