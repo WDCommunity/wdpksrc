@@ -5,7 +5,7 @@ Email:
 Homepage:	https://github.com/Entware/Entware
 Description:	Ultimate repo for embedded devices
 Icon:	        entware.png
-AddonShowName:	Entware-ng
+AddonShowName:	Entware
 AddonIndexPage:	
 AddonUsedPort:	
 InstDepend:
