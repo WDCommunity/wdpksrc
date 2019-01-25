@@ -20,13 +20,12 @@ PACKAGE=$1
 # TODO: check if this docker image exists
 
 # create packages
-docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash -c "cd wdpk/$PACKAGE; chown -R root:root . ; ./build.sh"
-#; chown -R 1000:1000 ../../packages/$PACKAGE"
+docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash -c "cd wdpk/$PACKAGE; ./build.sh ; chown -R 1000:1000 ../../packages/$PACKAGE"
 
 # find latest package
 PRODUCT="PR4100"  # TODO: use env
 
-BINARY=$(find -name "*$PRODUCT*$PACKAGE*.bin" | sort | head -n1)
+BINARY=$(find packages/$PACKAGE -name "*$PRODUCT*$PACKAGE*.bin" | sort | tail -n1)
 echo "Created $BINARY"
 
 TARGET=$2
