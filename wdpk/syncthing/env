@@ -1,0 +1,5 @@
+APKG_NAME="syncthing"
+BINARY="syncthing"
+
+WEBGUI_ADDR=$(grep -m1 Require /usr/local/apache2/conf/httpd.conf | awk '{print $NF}' | cut -d/ -f1)
+PORT=8384
