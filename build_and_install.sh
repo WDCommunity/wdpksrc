@@ -25,7 +25,7 @@ docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash -c "cd wdpk/$PACKAGE; ./build.s
 # find latest package
 PRODUCT="PR4100"  # TODO: use env
 
-BINARY=$(find -name "*$PRODUCT*$PACKAGE*.bin" | sort | head -n1)
+BINARY=$(find packages/$PACKAGE -name "*$PRODUCT*$PACKAGE*.bin" | sort | tail -n1)
 echo "Created $BINARY"
 
 TARGET=$2

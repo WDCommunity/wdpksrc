@@ -30,6 +30,11 @@ cd ${APKG_PATH}
 /opt/bin/git clone https://github.com/Tautulli/Tautulli.git
 [ ! $? -eq 0 ] && exit 3
 
+# checkout current supported version. feel free to update afterwards.
+cd Tautulli
+/opt/bin/git checkout v2.1.26
+cd ..
+
 # restore config
 if [ -f ${APKG_CONFIG_BACKUP} ]; then
   echo "Restore ${APKG_MODULE} config"

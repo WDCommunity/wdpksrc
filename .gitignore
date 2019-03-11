@@ -8,6 +8,8 @@ wdpk/*/work*
 wdpk/*/*.sign
 wdpk/*/*.xml
 
+.env
+
 toolchains/*/work*
 local.mk
 
