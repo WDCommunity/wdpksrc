@@ -1,0 +1,19 @@
+Package:	syncthing
+Version:	1.1.0
+Packager:	TFL
+Email:
+Homepage:	https://www.syncthing.net
+Description:	Open Source Continuous File Synchronization
+Icon:		logo.png
+AddonShowName:	Syncthing
+AddonIndexPage:	index.php
+AddonUsedPort:
+InstDepend:	
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
