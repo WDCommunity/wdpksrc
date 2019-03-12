@@ -25,7 +25,6 @@ TARBALL="docker-18.09.1.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
     ARCH="armel"
-    TARBALL="docker-18.06.0-ce.tgz"
     # JediNite provides custom docker packages for ARM
     # They are based on docker-runc without seccomp, as the kernel doesn't support it
     # The latest version is not available yet
