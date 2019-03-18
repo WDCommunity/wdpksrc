@@ -36,21 +36,13 @@ echo
 echo "Upload the app"
 scp $BINARY $TARGET:/mnt/HD/HD_a2/.systemfile/upload/app.bin
 
-cssh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+#cssh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+cssh=ssh
 
 echo
 echo "Install the app"
-$cssh $TARGET << EOF
-# list all apkgs
-REINST=\$(/usr/sbin/del_apkg whatever | grep Install | grep $PACKAGE)
-if \$REINST  
-then
-  /usr/sbin/upload_apkg -rapp.bin -d -f1 -g1
-else
-  /usr/sbin/upload_apkg -papp.bin -d -f0 -g1
-fi
+$cssh $TARGET /bin/sh -c "/usr/sbin/upload_apkg -rapp.bin -d -f1 -g1 && echo OK!"
 
-EOF
 
 TEST=tests/$PACKAGE/test.sh
 if [ -e $TEST ]; then
