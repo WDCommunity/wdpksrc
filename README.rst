@@ -44,7 +44,7 @@ This will build the package, install it on a PR4100 host device and run a sanity
 Native apps
 ^^^^^^^^^^^
 
-If you want to compile native apps, you'll need a complete wdpksrc / spksrc toolchain. Then follow the 
+If you want to compile native apps, you'll need a complete wdpksrc / spksrc toolchain.  
 
 Currently, these custom WD targets are available in this `SynoCommunity fork`_
 
@@ -52,6 +52,13 @@ Currently, these custom WD targets are available in this `SynoCommunity fork`_
 * wdpro - WD PR2100 / PR4100 with 4.1.9 kernel
 * wddl - WD DL2100 / DL4100 with 3.10.28 kernel
 * wdarm - all other devices (firmware version 2.x only!)
+
+**UPDATE**: it now creates WD binary packages right away. Some installer script changes might be necessary.
+
+* add xor_checksum to your PATH (copy it to /usr/local/bin)
+* ``cd wdpk/someapp``
+* ``make apkg-wdarm``
+* packages are available in ``packages`` directory
 
 Once you have a development environment set up , you can start building packages, create new ones, or improve upon existing packages while making your changes available to other people.
 See the `Developers HOW TO`_ for information on how to use spksrc.
