@@ -2,15 +2,14 @@
 
 [ -f /tmp/debug_apkg ] && echo "APKG_DEBUG: $0 $@" >> /tmp/debug_apkg
 
-path=$1
+APKGDIR=$(readlink -f $1)
 log=/tmp/debug_apkg
 
-echo "INIT linking files from path: $path" >> $log
+echo "INIT linking files from path: $APKGDIR" >> $log
 
 # create link to binary
 
 # create folder for the redirecting webpage
 WEBPATH="/var/www/cops"
-mkdir -p $WEBPATH
-ln -sf $path/web/* $WEBPATH >> $log 2>&1
+ln -sf $APKGDIR/web $WEBPATH >> $log 2>&1
 

@@ -5,5 +5,5 @@
 APP=cops
 WEBPATH="/var/www/$APP"
 
-# remove web
-rm -rf $WEBPATH
+# remove webdir symlink
+rm $WEBPATH
