@@ -53,26 +53,22 @@ Currently, these custom WD targets are available in this `SynoCommunity fork`_
 * wddl - WD DL2100 / DL4100 with 3.10.28 kernel
 * wdarm - all other devices (firmware version 2.x only!)
 
-**UPDATE**: it now creates WD binary packages right away. Some installer script changes might be necessary.
+**UPDATE**: it now creates WD binary packages right away. 
 
 * add xor_checksum to your PATH (copy it to /usr/local/bin)
 * ``cd wdpk/someapp``
 * ``make apkg-wdarm``
 * packages are available in ``packages`` directory
 
-Once you have a development environment set up , you can start building packages, create new ones, or improve upon existing packages while making your changes available to other people.
-See the `Developers HOW TO`_ for information on how to use spksrc.
-
-Note that spksrc creates synology SPK packages... these need to be *simplified* to WD apps. 
-
-* Rename the .spk package with the .tar extension
-* Unpack with `tar xf somepackage.tar`
-* Move the bins and libs to your wdpk somepackage
-* Modify the start/stop scripts as necessary into the wdpk format, stripped from all synology specific logistics. In OS3, basically everything runs as root.
+Some installer script changes might be necessary.
 
 Donate
 ------
-Feel free to donate to the SynoCommunity project, the major inspiration for this project.
+Thanks, but I'm good. Feel free to donate to these other projects instead
+
+* `Allester Fox`_
+* `SynoCommunity`_ project
+* some charity
 
 License
 -------
@@ -90,3 +86,4 @@ When not explicitly set, files are placed under a `3 clause BSD license`_
 .. _SynoCommunity: https://github.com/SynoCommunity/spksrc
 .. _SynoCommunity fork: https://github.com/stefaang/spksrc
 .. _WDCommunity website: http://www.wdcommunity.com
+.. _Allester Fox: https://fox-exe.ru/ 
