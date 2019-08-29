@@ -11,9 +11,9 @@ echo "Entware init.sh linking files from path: $APPDIR" >> $LOG
 OPKG=/opt/bin/opkg
 OPTROOT=/shares/Volume_1/entware
 if [ ! -f $OPKG ]; then
-    [ ! -d $OPTROOT ] && echo "Entware root dir not found!" >> $LOG && exit 1
-    mount --bind $OPTROOT /opt
-    echo "Mounted Entware root to /opt" >> $LOG
+	[ ! -d $OPTROOT ] && echo "Entware root dir not found!" >> $LOG && exit 1
+	mount --bind $OPTROOT /opt
+	echo "Mounted Entware root to /opt" >> $LOG
 fi
 
 # add wd opt dir again
@@ -25,8 +25,17 @@ PROFILE=/etc/profile
 [ ! -f $PROFILE ] && cp $APPDIR/profile $PROFILE
 
 # restore home dir
-mkdir -p /home/root
-rsync -a ${APPDIR}/home/ /home/root
+HOME=/home/root
+NEWHOME=${APPDIR}/home
+if [ ! -L ${HOME} ]
+then
+	echo "Setup persistent home directory"
+	rm -rf ${HOME}
+	mkdir -p ${NEWHOME}
+	ln -sf ${NEWHOME} /home/root
+	chown -R root:root ${HOME}
+	chown -R root:root ${NEWHOME}
+fi
 
 # link web to /var/www just for the app icon
 WEBPATH=/var/www/entware/

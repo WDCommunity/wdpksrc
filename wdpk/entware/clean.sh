@@ -9,10 +9,10 @@ echo "APKG_DEBUG: $0 $@" >> $LOG
 
 rm /etc/profile
 
-# backup home dir
-APPDIR=$1
-rm -rf "${APPDIR}/home"
-rsync -a /home/root/ "${APPDIR}/home"
+# remove symlink to home dir
+rm /home/root
+mkdir /home/root
+chown root:root /home/root
 
 # umount, the original /opt mount becomes visible again
 umount /opt
