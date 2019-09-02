@@ -33,16 +33,17 @@ cd ${APKG_PATH}
 echo "get the latest stable Cuberite version from the buildserver archive" >> $log
 BUILDS="https://builds.cuberite.org/job/cuberite/job/master/job/linux-x64/job/release/lastSuccessfulBuild/artifact/cuberite"
 TARBALL="Cuberite.tar.gz"
-wget ${BUILDS}/${TARBALL}
+curl ${BUILDS}/${TARBALL} -o ${TARBALL}
 
 [[ ! $? -eq 0 ]] && exit 1
 
 echo "get the checksum" >> $log
-wget ${BUILDS}/${TARBALL}.sha1
+CHECKSUM=${TARBALL}.sha1
+curl ${BUILDS}/${CHECKSUM} -o ${CHECKSUM}
 
 echo "validate the checksum" >> $log
 CHKSUM=$(openssl sha1 ${TARBALL} | cut -d' ' -f2)
-VALIDATE=$(cat ${TARBALL}.sha1 | cut -d' ' -f1)
+VALIDATE=$(cat ${CHECKSUM} | cut -d' ' -f1)
 if [ "$CHKSUM" != "$VALIDATE" ] ; then
     echo "Checksum failure!" >> $log
     exit 2
@@ -53,7 +54,7 @@ tar xf ${TARBALL}
 
 # keep the tarball for when you'd want to setup a clean server later
 # rm ${TARBALL}
-rm ${TARBALL}.sha1
+rm ${CHECKSUM}
 
 #echo "update the bootscript to the local git repo" >> $log
 #sed -i "s|^PKG_DIR=.*|PKG_DIR=${APKG_PATH}|" ${APKG_PATH}/bootscript
