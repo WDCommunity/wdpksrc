@@ -42,8 +42,9 @@ MODEL="$3"
 if [ -z "$MODEL" ]; then
 	MODEL="PR4100"
 fi
+echo "Select model $MODEL"
 
-BINARY=$(find packages/$PACKAGE -name "*$MODEL_$PACKAGE_*.bin" | sort | tail -n1)
+BINARY=$(find packages/$PACKAGE -name "*${MODEL}_${PACKAGE}_*.bin" | sort | tail -n1)
 echo "Created $BINARY"
 
 TARGET="$2"
@@ -59,7 +60,7 @@ cssh=ssh
 
 echo
 echo "Install the app"
-$cssh $TARGET /bin/sh -c "/usr/sbin/upload_apkg -rapp.bin -d -f1 -g1 && echo OK!"
+$cssh $TARGET "PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin /usr/sbin/upload_apkg -rapp.bin -d -f1 -g1 && echo 'SUCCESS!'"
 
 
 TEST=tests/$PACKAGE/test.sh
