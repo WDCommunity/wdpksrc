@@ -3,3 +3,5 @@ BINARY="syncthing"
 
 WEBGUI_ADDR=$(grep -m1 Require /usr/local/apache2/conf/httpd.conf | awk '{print $NF}' | cut -d/ -f1)
 PORT=8384
+
+export ST_HOME=/shares/Volume_1/Nas_Prog/syncthing_home
