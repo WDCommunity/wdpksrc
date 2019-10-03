@@ -16,10 +16,6 @@ if [ ! -f $OPKG ]; then
 	echo "Mounted Entware root to /opt" >> $LOG
 fi
 
-# add wd opt dir again
-WDOPT=/usr/local/modules/opt/wd
-ln -sf $WDOPT /opt/wd
-
 # update profile
 PROFILE=/etc/profile
 [ ! -f $PROFILE ] && cp $APPDIR/profile $PROFILE
