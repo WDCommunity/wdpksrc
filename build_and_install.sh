@@ -16,6 +16,21 @@
 # Author: TFL
 
 PACKAGE=$1
+
+usage () {
+	echo "Usage: $0 package <target>"
+}
+
+if [ -z "$1" ]; then
+	usage
+	exit 1
+fi
+
+if [ "$1" = "-h" ]; then
+	usage
+	exit 0
+fi
+
 # TODO: add docstring / help
 # TODO: check if this docker image exists
 
@@ -23,12 +38,15 @@ PACKAGE=$1
 docker run -it -v $(pwd):/wdpksrc wdpk /bin/bash -c "cd wdpk/$PACKAGE; ./build.sh; chown -R 1000:1000 ../../packages/$PACKAGE"
 
 # find latest package
-PRODUCT="PR4100"  # TODO: use env
+MODEL="$3"
+if [ -z "$MODEL" ]; then
+	MODEL="PR4100"
+fi
 
-BINARY=$(find packages/$PACKAGE -name "*$PRODUCT*$PACKAGE*.bin" | sort | tail -n1)
+BINARY=$(find packages/$PACKAGE -name "*$MODEL_$PACKAGE_*.bin" | sort | tail -n1)
 echo "Created $BINARY"
 
-TARGET=$2
+TARGET="$2"
 
 [[ -z $TARGET ]] && exit 0
 
@@ -48,7 +66,7 @@ TEST=tests/$PACKAGE/test.sh
 if [ -e $TEST ]; then
 	echo
 	echo "Run test hooks"
-	export PACKAGE=$PACKAGE 
+	export PACKAGE=$PACKAGE
 	export TARGET=$TARGET
     $TEST
 else
