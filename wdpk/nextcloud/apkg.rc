@@ -1,0 +1,19 @@
+Package:	nextcloud
+Version:	17.0.0
+Packager:	TFL
+Email:
+Homepage:	https://www.nextcloud.com
+Description:	The self-hosted productivity platform that keeps you in control
+Icon:		logo.png
+AddonShowName:	Nextcloud
+AddonIndexPage:	index.php
+AddonUsedPort:
+InstDepend:	
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0

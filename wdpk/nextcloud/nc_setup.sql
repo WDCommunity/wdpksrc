@@ -1,0 +1,5 @@
+ALTER USER 'root'@'localhost' IDENTIFIED BY '@@ROOT_PWD@@';
+CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY '@@ADMIN_PWD@@';
+CREATE DATABASE IF NOT EXISTS nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY '@@ADMIN_PWD@@';
+FLUSH privileges;

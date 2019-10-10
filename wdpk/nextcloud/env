@@ -1,0 +1,7 @@
+APKG_NAME="nextcloud"
+VERSION="17.0.0"
+
+PORT=443
+
+LOG=/tmp/${APKG_NAME}.log
+
