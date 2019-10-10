@@ -12,5 +12,5 @@ while [ -n "$p" ] ; do
 	kill $p
 	sleep 1
 	p=$(pidof ${BINARY} > /dev/null)
-do
+done
 
