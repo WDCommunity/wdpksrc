@@ -21,13 +21,14 @@ ARCH="$(uname -m)"
 
 # download docker binaries
 cd "${APKG_PATH}"
-TARBALL="docker-19.03.2.tgz"
+TARBALL="docker-19.03.3.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
     ARCH="armel"
+    REL_TAG="v19.03.3"
     # JediNite provides custom docker packages for ARM
     # They are based on docker-runc without seccomp, as the kernel doesn't support it
-    URL="https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/${TARBALL}"
+    URL="https://github.com/JediNite/docker-ce-WDEX4100-binaries/releases/download/${REL_TAG}/${TARBALL}"
 else
     URL="https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}"
 fi
