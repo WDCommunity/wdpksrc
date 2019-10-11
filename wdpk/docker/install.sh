@@ -5,6 +5,9 @@
 path_src=$1
 NAS_PROG=$2
 
+# define docker version
+VERSION="19.03.3"
+
 log=/tmp/debug_apkg
 
 APKG_MODULE="docker"
@@ -21,13 +24,13 @@ ARCH="$(uname -m)"
 
 # download docker binaries
 cd "${APKG_PATH}"
-TARBALL="docker-19.03.2.tgz"
+TARBALL="docker-${VERSION}.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
     ARCH="armel"
     # JediNite provides custom docker packages for ARM
     # They are based on docker-runc without seccomp, as the kernel doesn't support it
-    URL="https://github.com/JediNite/docker-ce-WDEX4100-binaries/raw/master/armv7l-WDEX4100/${TARBALL}"
+    URL="https://github.com/JediNite/docker-ce-WDEX4100-binaries/releases/download/${VERSION}/${TARBALL}"
 else
     URL="https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}"
 fi
