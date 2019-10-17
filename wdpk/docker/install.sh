@@ -38,6 +38,11 @@ fi
 # download and extract the package
 curl -L "${URL}" | tar xz >> $log 2>&1
 
+if [ ! $? -eq 0 ]; then
+	echo "Failed to download/extract docker package" | tee $log
+	exit 1
+fi
+
 # stop original docker v1.7
 if [ -e "${ORIG_DAEMONSH}" ]; then
     echo "Found orig daemon"
