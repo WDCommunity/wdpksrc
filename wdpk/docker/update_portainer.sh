@@ -1,4 +1,8 @@
 !#/bin/sh
+
+# Define APKG_PATH
+APKG_PATH="/mnt/HD/HD_a2/Nas_Prog/docker"
+
 # Stop and remove the old container
 docker stop portainer
 docker rm portainer
