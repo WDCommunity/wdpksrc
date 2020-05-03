@@ -4,9 +4,6 @@
 
 WEBPATH="/var/www/couchpotato"
 
-# remove bootscript
-rm -f /opt/etc/init.d/S90CouchPotato
-
 # remove lib
 
 # remove web
