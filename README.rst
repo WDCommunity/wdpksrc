@@ -1,5 +1,10 @@
+ANNOUNCEMENT AUG 2020
+=====================
+I (Stefaan / TFL) am refactoring this repo for compatibility with OS5. Please use issues tab if something is broken.
+
 wdpksrc
 =======
+
 This project contains the source and tools for software packages for Western Digital My Cloud (OS3) NAS devices. The packages are made available via the `WDCommunity website`_. Most of the packages are simply scripts to fetch the applications from the official sources and configure them with a sensible default. Only a few packages were compiled with the OS3 toolchain with the help of the `SynoCommunity`_ project tools.
 
 Most of the packages are published on the WD `community forum`_ in their own thread. Use the search bar.
