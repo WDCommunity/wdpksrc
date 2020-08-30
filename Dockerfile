@@ -1,12 +1,12 @@
-FROM ubuntu:16.04
+FROM debian:buster
 LABEL maintainer="WDCommunity <https://github.com/wdcommunity>"
 
 ENV LANG C.UTF-8
 
-# Manage i386 arch
-RUN dpkg --add-architecture i386; \
-    apt-get update; \
-    apt-get install openssl libxml2:i386 -y
+RUN apt-get update; \
+    apt-get install openssl libxml2 -y
+
+COPY mksapkg /usr/bin
 
 # Volume pointing to spksrc sources
 VOLUME /wdpksrc
