@@ -208,7 +208,7 @@ case $1 in
         dm_cleanup
         cgroupfs-mount
         set_docker_cgroup
-        ${DOCKERD} -D >> /var/lib/docker/docker.log 2>&1 &
+        ${DOCKERD} --ip-masq=true >> /var/lib/docker/docker.log 2>&1 &
         docker_pid=$!
         # Attach docker pid to memory cgroup
         if [[ "${docker_pid}" =~ ^[0-9]+$ ]]; then
