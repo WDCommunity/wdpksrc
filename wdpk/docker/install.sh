@@ -90,6 +90,11 @@ if [ $? = 1 ]; then
                -v $(readlink -f ${APKG_PATH})/portainer:/data portainer/portainer
 fi
 
+# install docker-compose
+dc="${APKG_PATH}/docker/docker-compose"
+curl -L https://github.com/docker/compose/releases/download/1.26.2/run.sh -o $dc
+chmod +x $dc
+
 # proof that everything works
 docker ps >> $log 2>&1
 
