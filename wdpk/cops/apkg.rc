@@ -1,5 +1,5 @@
 Package:	cops
-Version:	0.04
+Version:	0.05
 Packager:	TFL
 Email:
 Homepage:	https://github.com/seblucas/cops
@@ -14,6 +14,6 @@ StartDepend:
 StartConflict:
 CenterType:
 UserControl:
-MinFWVer:
+MinFWVer:	5.0.0
 MaxFWVer:
 IndividualFlag: 0

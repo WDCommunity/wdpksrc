@@ -9,8 +9,9 @@ echo "Building ${APP_NAME} version ${VERSION}"
 
 MODELS="WDMyCloudEX4 WDMyCloudEX2 WDMyCloudMirror WDMyCloud WDMyCloudEX4100 WDMyCloudDL4100 WDMyCloudEX2100 WDMyCloudDL2100 WDMyCloudMirrorGen2 MyCloudEX2Ultra MyCloudPR4100 MyCloudPR2100"
 
+MODELS="MyCloudPR4100 MyCloudPR2100"
 for model in $MODELS; do
-  ../../mksapkg -E -s -m $model > /dev/null
+  ../../mksapkg-64b -E -s -m $model > /dev/null
 done
 
 echo "Move binaries"
