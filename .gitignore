@@ -1,5 +1,6 @@
 /distrib
 /packages
+/__MACOSX
 native/*/work*
 cross/*/work*
 kernel/*/work*
@@ -13,5 +14,6 @@ wdpk/*/*.xml
 toolchains/*/work*
 local.mk
 
+/.idea
 *.DS_Store
 *~
