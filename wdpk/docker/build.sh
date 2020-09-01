@@ -11,7 +11,7 @@ RELEASE_DIR="../../packages/${APP_NAME}/OS5"
 mkdir -p "${RELEASE_DIR}"
 
 MODELS="WDMyCloudEX4100-EX4100 WDMyCloudDL4100-DL4100 WDMyCloudEX2100-EX2100 WDMyCloudDL2100-DL2100
-        WDMyCloudMirrorGen2-MirrorG2 MyCloudEX2Ultra-EX2Ultra MyCloudPR4100-PR4100 MyCloudPR2100-PR2100"
+        WDMyCloudMirror-MirrorG2 MyCloudEX2Ultra-EX2Ultra MyCloudPR4100-PR4100 MyCloudPR2100-PR2100"
 
 for fullmodel in $MODELS; do
   model=${fullmodel%-*}

@@ -1,3 +1,5 @@
-#!/bin/zsh
+#!/bin/sh
 
-act
+source .env
+
+act --secret-file .env

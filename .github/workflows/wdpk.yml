@@ -1,4 +1,5 @@
-# This is a basic workflow to help you get started with Actions
+# WD MyCloud package builder CI
+# by Stefaan Ghysels
 
 name: WD MyCloud package CI
 
@@ -18,11 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: wdpk/wdpk
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+      options: -v ${{github.workspace}}/packages:/github/workspace/packages
+   # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Get packages that were changed in the last commit
+        id: diff
+        run: |
+          pkgs=$(git diff-tree --name-only --no-commit-id -r HEAD | grep ^wdpk)
+          echo ::set-output name=pkgs::"${pkgs}"
 
       - name: Get platforms
         id: platforms
@@ -32,13 +39,40 @@ jobs:
         id: make_apkg
         env:
           PLATFORMS: ${{ steps.platforms.outputs.arr }}
+          PACKAGES: ${{ steps.diff.outputs.pkgs }}
         run: |
-          cd wdpk/docker
-          echo PLF $PLATFORMS $arr
+
+          pkg=$(echo ${PACKAGES} | cut -d/ -f2)
+          echo ::set-output name=pkg::"$pkg"
+          cd wdpk/${pkg}
+          DATE="$(date +"%m%d%Y")"
+          CWD="$(pwd)"
+          VERSION="$(awk '/Version/{print $NF}' apkg.rc)"
+          echo ::set-output name=version::"$VERSION"
+
+          echo "Building ${pkg} version ${VERSION}"
+          echo "$(ls -l ../..)"
+          RELEASE_DIR="../../packages/${pkg}/OS5"
+          mkdir -p "${RELEASE_DIR}"
+
+          echo PLF $PLATFORMS - $arr - $PACKAGES
           for platform in $PLATFORMS
           do
-            echo "Build for $platform"
+            echo "Build ${pkg} for ${platform}"
             ../../mksapkg-OS5 -E -s -m $platform > /dev/null
+            mv ../${platform}*.bin\(* ../${pkg}_${VERSION}_${platform}.bin
           done
+          echo "$(ls -l ..)"
 
-
+      - name: Upload deb package to Bintray
+        uses: masofcon/upload-to-bintray-github-action@master
+        with:
+          source_path: ./wdpk/${{steps.make_apkg.outputs.pkg}}_${{steps.make_apkg.outputs.version}}_*.bin
+          api_user: tfl
+          api_key: ${{ secrets.BINTRAY_API_KEY }} # An API key can be obtained from the user profile page.
+          repository: wdpksrc
+          package: 'Entware'
+          version: ${{ steps.make_apkg.outputs.version }}
+          upload_path: ${{ steps.make_apkg.outputs.pkg }}/OS5
+          publish: 1
+          override: 0
