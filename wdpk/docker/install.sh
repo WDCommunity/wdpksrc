@@ -86,7 +86,7 @@ sleep 3
 docker ps -a | grep portainer-ce
 if [ $? = 1 ]; then
     docker run -d -p 9000:9000 --restart always \
-               --name portainer-ce -v /var/run/docker.sock:/var/run/docker.sock \
+               --name portainer -v /var/run/docker.sock:/var/run/docker.sock \
                -v $(readlink -f ${APKG_PATH})/portainer:/data portainer/portainer-ce
 fi
 
