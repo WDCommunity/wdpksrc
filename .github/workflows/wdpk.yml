@@ -33,7 +33,7 @@ jobs:
 
       - name: Get platforms
         id: platforms
-        run: echo ::set-output name=arr::"MyCloudPR4100 MyCloudPR2100"
+        run: echo ::set-output name=arr::"WDMyCloudEX4100-EX4100 WDMyCloudDL4100-DL4100 WDMyCloudEX2100-EX2100 WDMyCloudDL2100-DL2100 WDMyCloudMirror-MirrorG2 MyCloudEX2Ultra-EX2Ultra MyCloudPR4100-PR4100 MyCloudPR2100-PR2100"
 
       - name: Make APKG packages for selected platforms
         id: make_apkg
@@ -56,11 +56,13 @@ jobs:
           mkdir -p "${RELEASE_DIR}"
 
           echo PLF $PLATFORMS - $arr - $PACKAGES
-          for platform in $PLATFORMS
+          for fullmodel in $PLATFORMS
           do
+            model=${fullmodel%-*}
+            name=${fullmodel#*-}
             echo "Build ${pkg} for ${platform}"
-            ../../mksapkg-OS5 -E -s -m $platform > /dev/null
-            mv ../${platform}*.bin\(* ../${pkg}_${VERSION}_${platform}.bin
+            ../../mksapkg-OS5 -E -s -m $model > /dev/null
+            mv ../${platform}*.bin\(* ../${pkg}_${VERSION}_${name}.bin
           done
           echo "$(ls -l ..)"
 
