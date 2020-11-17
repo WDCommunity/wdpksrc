@@ -49,6 +49,8 @@ jobs:
           CWD="$(pwd)"
           VERSION="$(awk '/Version/{print $NF}' apkg.rc)"
           echo ::set-output name=version::"$VERSION"
+          NAME="$(awk '/AddonShowName/{print $NF}' apkg.rc)"
+          echo ::set-output name=name::"$NAME"
 
           echo "Building ${pkg} version ${VERSION}"
           echo "$(ls -l ../..)"
@@ -73,7 +75,7 @@ jobs:
           api_user: tfl
           api_key: ${{ secrets.BINTRAY_API_KEY }} # An API key can be obtained from the user profile page.
           repository: wdpksrc
-          package: 'Entware'
+          package: ${{ steps.make_apkg.outputs.name }}
           version: ${{ steps.make_apkg.outputs.version }}
           upload_path: ${{ steps.make_apkg.outputs.pkg }}/OS5
           publish: 1

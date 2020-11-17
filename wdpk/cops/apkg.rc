@@ -1,11 +1,11 @@
 Package:	cops
-Version:	0.05
+Version:	20.11.17
 Packager:	TFL
 Email:
 Homepage:	https://github.com/seblucas/cops
 Description:	Calibre ebook content server
 Icon:	        cops.png
-AddonShowName:	Calibre COPS
+AddonShowName:	COPS
 AddonIndexPage:	index.php
 AddonUsedPort:	
 InstDepend:     
