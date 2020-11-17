@@ -22,7 +22,7 @@ curl --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem
 mv cacert.pem /etc/ssl/cert.pem
 
 # install pip to get pkg_resources module
-/opt/bin/opkg install python-light python-pip git git-http
+/opt/bin/opkg install python3-light python3-pip git git-http
 [ ! $? -eq 0 ] && exit 2
 
 # get the Tautulli source code
@@ -32,7 +32,7 @@ cd ${APKG_PATH}
 
 # checkout current supported version. feel free to update afterwards.
 cd Tautulli
-/opt/bin/git checkout v2.1.26
+/opt/bin/git checkout v2.6.1
 cd ..
 
 # restore config
