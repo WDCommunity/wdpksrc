@@ -1,11 +1,11 @@
 Package:	nzbget
-Version:	2.09
+Version:	20.11.17
 Packager:	TFL
 Email:
 Homepage:	https://nzbget.net
 Description:	The most efficient usenet downloader
 Icon:	nzbget.png
-AddonShowName:	NZBget
+AddonShowName:	NZBGet
 AddonIndexPage:	index.html
 AddonUsedPort:
 InstDepend:
