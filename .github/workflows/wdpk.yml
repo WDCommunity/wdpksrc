@@ -68,7 +68,7 @@ jobs:
           done
           echo "$(ls -l ..)"
 
-      - name: Upload deb package to Bintray
+      - name: Upload binary packages to Bintray
         uses: masofcon/upload-to-bintray-github-action@master
         with:
           source_path: ./wdpk/${{steps.make_apkg.outputs.pkg}}_${{steps.make_apkg.outputs.version}}_*.bin

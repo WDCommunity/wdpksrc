@@ -5,7 +5,8 @@ log=/tmp/debug_apkg
 APKG_PATH=$1
 . ${APKG_PATH}/env
 
-ADDRESS=$(grep -m1 'Require ip' /usr/local/apache2/conf/httpd.conf | awk '{print $NF}' | cut -d/ -f1)
+# get first match for IP address
+ADDRESS=$(sed -n '/ip/ {s/.*<ip>\(\S*\)<\/ip>/\1/p;q}' /etc/NAS_CFG/config.xml )
 
 # disable creation of default folder
 export STNODEFAULTFOLDER=0
