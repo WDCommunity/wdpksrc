@@ -2,6 +2,8 @@ ANNOUNCEMENT AUG 2020
 =====================
 I (Stefaan / TFL) am refactoring this repo for compatibility with OS5. Please use issues tab if something is broken.
 
+Several OS5 packages are now available on `Bintray`_. The wdcommunity website is still to be updated.
+
 wdpksrc
 =======
 
@@ -91,4 +93,5 @@ When not explicitly set, files are placed under a `3 clause BSD license`_
 .. _SynoCommunity: https://github.com/SynoCommunity/spksrc
 .. _SynoCommunity fork: https://github.com/stefaang/spksrc
 .. _WDCommunity website: http://www.wdcommunity.com
+.. _Bintray: https://bintray.com/beta/#/tfl/wdpksrc?tab=packages
 .. _Allester Fox: https://fox-exe.ru/ 
