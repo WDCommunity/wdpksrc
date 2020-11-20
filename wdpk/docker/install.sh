@@ -28,7 +28,7 @@ cd "${APKG_PATH}"
 if [ ${ARCH} != "x86_64" ]; then
 	# Update the "ARCH" to "armhf" so it matches the docker download site
 	# Versions above "19.03.8" do not have a working "dockerd" binary on WD EX4100
-    ARCH="armhf"
+	ARCH="armhf"
 	VERSION="19.03.8"
 fi
 
