@@ -25,24 +25,44 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Get packages that were changed in the last commit
+      - name: Get package that was changed in the last commit
         id: diff
+        env:
+          use_act: ${{ secrets.USE_ACT }}"
         run: |
-          pkgs=$(git diff-tree --name-only --no-commit-id -r HEAD | grep ^wdpk)
-          echo ::set-output name=pkgs::"${pkgs}"
+          #if [ -z "${use_act}" ]; then
+            echo "not using act ${use_act}"
+            wget ${{ github.event.pull_request.diff_url }} -O pr.diff
+            pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
+          #else
+          #  echo "$(git show)"
+          #  pkg=$(git diff-tree --name-only --no-commit-id -r HEAD~1 | grep ^wdpk | cut -d/ -f2 | uniq || error=true)
+          #fi
+          pkgs=""
+          for p in $pkg; do
+            pkgs="${pkgs}${p} "
+          done
+          echo "Packages: ${pkgs}"
+          if [ -z "${use_act}" ]; then
+            echo "not using act ${use_act}"
+            echo ::set-output name=pkg::"${pkgs}"
+          else
+            echo "using act ${use_act}"
+            echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
+          fi
 
+      # TODO: use matrix instead
       - name: Get platforms
         id: platforms
-        run: echo ::set-output name=arr::"WDMyCloudEX4100-EX4100 WDMyCloudDL4100-DL4100 WDMyCloudEX2100-EX2100 WDMyCloudDL2100-DL2100 WDMyCloudMirror-MirrorG2 MyCloudEX2Ultra-EX2Ultra MyCloudPR4100-PR4100 MyCloudPR2100-PR2100"
+        run: |
+          PLATFORMS="WDMyCloudEX4100-EX4100 WDMyCloudDL4100-DL4100 WDMyCloudEX2100-EX2100 WDMyCloudDL2100-DL2100 WDMyCloudMirror-MirrorG2 MyCloudEX2Ultra-EX2Ultra MyCloudPR4100-PR4100 MyCloudPR2100-PR2100"
+          echo "Use act ${use_act}"
+          echo "PLATFORMS=${PLATFORMS}" >> $GITHUB_ENV
 
       - name: Make APKG packages for selected platforms
         id: make_apkg
-        env:
-          PLATFORMS: ${{ steps.platforms.outputs.arr }}
-          PACKAGES: ${{ steps.diff.outputs.pkgs }}
         run: |
-
-          pkg=$(echo ${PACKAGES} | cut -d/ -f2)
+          pkg=$(echo ${PACKAGE} | cut -d' ' -f1)
           echo ::set-output name=pkg::"$pkg"
           cd wdpk/${pkg}
           DATE="$(date +"%m%d%Y")"
@@ -57,7 +77,7 @@ jobs:
           RELEASE_DIR="../../packages/${pkg}/OS5"
           mkdir -p "${RELEASE_DIR}"
 
-          echo PLF $PLATFORMS - $arr - $PACKAGES
+          echo PLF $PLATFORMS - $arr - $PACKAGE
           for fullmodel in $PLATFORMS
           do
             model=${fullmodel%-*}
@@ -68,7 +88,7 @@ jobs:
           done
           echo "$(ls -l ..)"
 
-      - name: Upload binary packages to Bintray
+      - name: Upload binary packages to Bintray when a tag is included
         uses: masofcon/upload-to-bintray-github-action@master
         with:
           source_path: ./wdpk/${{steps.make_apkg.outputs.pkg}}_${{steps.make_apkg.outputs.version}}_*.bin
@@ -80,3 +100,4 @@ jobs:
           upload_path: ${{ steps.make_apkg.outputs.pkg }}/OS5
           publish: 1
           override: 0
+        if: env.HEAD_TAG != ''
