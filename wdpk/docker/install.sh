@@ -6,7 +6,7 @@ path_src=$1
 NAS_PROG=$2
 
 # define docker version
-VERSION="19.03.8"
+VERSION="19.03.13"
 
 log=/tmp/debug_apkg
 
@@ -24,16 +24,16 @@ ARCH="$(uname -m)"
 
 # download docker binaries
 cd "${APKG_PATH}"
-TARBALL="docker-${VERSION}.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
-    ARCH="armel"
-    # JediNite provides custom docker packages for ARM
-    # They are based on docker-runc without seccomp, as the kernel doesn't support it
-    URL="https://github.com/JediNite/docker-ce-WDEX4100-binaries/releases/download/${VERSION}/${TARBALL}"
-else
-    URL="https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}"
+	# Update the "ARCH" to "armhf" so it matches the docker download site
+	# Versions above "19.03.8" do not have a working "dockerd" binary on WD EX4100
+	ARCH="armhf"
+	VERSION="19.03.8"
 fi
+
+TARBALL="docker-${VERSION}.tgz"
+URL="https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}"
 
 # download and extract the package
 curl -L "${URL}" | tar xz >> $log 2>&1
@@ -83,11 +83,11 @@ sleep 1
 sleep 3
 
 # install portainer to manage docker, only if there is no container Portainer (running or not)
-docker ps -a | grep portainer
+docker ps -a | grep portainer-ce
 if [ $? = 1 ]; then
     docker run -d -p 9000:9000 --restart always \
-               -v /var/run/docker.sock:/var/run/docker.sock \
-               -v $(readlink -f ${APKG_PATH})/portainer:/data portainer/portainer
+               --name portainer-ce -v /var/run/docker.sock:/var/run/docker.sock \
+               -v $(readlink -f ${APKG_PATH})/portainer:/data portainer/portainer-ce
 fi
 
 # proof that everything works
