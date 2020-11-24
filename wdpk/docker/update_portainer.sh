@@ -1,4 +1,4 @@
-!#/bin/sh
+#!/bin/sh
 
 # Define APKG_PATH
 APKG_PATH="/shares/Volume_1/Nas_Prog"
