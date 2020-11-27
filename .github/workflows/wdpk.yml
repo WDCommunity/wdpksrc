@@ -95,6 +95,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
+          name: ${{ steps.make_apkg.outputs.pkg }}_${{ steps.make_apkg.outputs.version }}_OS5
           path: wdpk/*_*_*.bin
 
       - name: Upload binary packages to Bintray when a tag is included
