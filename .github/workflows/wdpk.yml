@@ -1,5 +1,9 @@
 # WD MyCloud package builder CI
 # by Stefaan Ghysels
+#
+# Please note that I started with local development with https://github.com/nektos/act
+# but once that was working it became clear that many features of github actions were not supported yet
+# Hence the messy code below.
 
 name: WD MyCloud package CI
 
@@ -87,6 +91,11 @@ jobs:
             mv ../${platform}*.bin\(* ../${pkg}_${VERSION}_${name}.bin
           done
           echo "$(ls -l ..)"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: wdpk/*_*_*.bin
 
       - name: Upload binary packages to Bintray when a tag is included
         uses: masofcon/upload-to-bintray-github-action@master
