@@ -52,8 +52,8 @@ TARGET="$2"
 [[ -z $TARGET ]] && exit 0
 
 echo
-echo "Upload the app"
-scp $BINARY $TARGET:/mnt/HD/HD_a2/.systemfile/upload/app.bin
+echo "Upload the app $BINARY"
+scp $BINARY $TARGET:/shares/Volume_1/.systemfile/upload/app.bin
 
 #cssh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 cssh=ssh
@@ -65,7 +65,7 @@ if [ -n "${ALREADY_INSTALLED}" ]; then
 	$cssh $TARGET "PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin /usr/sbin/upload_apkg -rapp.bin -d -f1 -g1 && echo 'SUCCESS!'"
 else
 	echo "Warning: this usually doesn't work!"
-	$cssh $TARGET "PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin /usr/sbin/upload_apkg -papp.bin -t2 -d -f0 -g1 && echo 'SUCCESS!'"
+	$cssh $TARGET "PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin /usr/sbin/upload_apkg -m -papp.bin -t2  && echo 'SUCCESS!'"
 fi
 
 

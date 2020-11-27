@@ -21,7 +21,7 @@ cp -f ${APKG_CONFIG} ${APKG_BACKUP_CONFIG}
 cp -rf $path_src $path_dst 
 
 echo "install requirements" >> $log
-opkg install busybox git git-http python python-pyopenssl >> $log 2>&1
+opkg install busybox git git-http python3 python3-pyopenssl >> $log 2>&1
 
 ORIG_DIR=$(pwd)
 cd $APKG_PATH

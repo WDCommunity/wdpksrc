@@ -19,13 +19,11 @@ mksapkg setup
 
 For simple script based apps (most of the current packages), you only need mksapkg to create a binary.
 
-On Ubuntu 16.04:
+On Ubuntu 18.04:
 
 .. code::
 
-    apt-get install libxml2:i386
-    
-Ensure you have openssl v1.0.x, not openssl v1.1+ (as is the case on Ubuntu 18).
+    apt-get install libxml2 openssl
 
 Docker
 ^^^^^^
@@ -46,7 +44,7 @@ Build and deploy test
 
     ./build_and_install.sh  <package>  <host>
 
-This will build the package, install it on a PR4100 host device and run a sanity check if a test is available.
+This builds the package, installs it on a PR4100 host device and runs a sanity check if a test is available.
 
 Native apps
 ^^^^^^^^^^^

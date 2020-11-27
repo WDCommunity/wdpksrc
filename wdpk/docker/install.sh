@@ -86,9 +86,14 @@ sleep 3
 docker ps -a | grep portainer-ce
 if [ $? = 1 ]; then
     docker run -d -p 9000:9000 --restart always \
-               --name portainer-ce -v /var/run/docker.sock:/var/run/docker.sock \
+               --name portainer -v /var/run/docker.sock:/var/run/docker.sock \
                -v $(readlink -f ${APKG_PATH})/portainer:/data portainer/portainer-ce
 fi
+
+# install docker-compose
+dc="${APKG_PATH}/docker/docker-compose"
+curl -L https://github.com/docker/compose/releases/download/1.26.2/run.sh -o $dc
+chmod +x $dc
 
 # proof that everything works
 docker ps >> $log 2>&1

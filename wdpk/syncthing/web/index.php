@@ -1,1 +1,1 @@
-<?php header("Location: http://{$_SERVER['SERVER_ADDR']}:8384"); ?>
+<?php header("Location: http://{$_SERVER['HTTP_HOST']}:8384"); ?>

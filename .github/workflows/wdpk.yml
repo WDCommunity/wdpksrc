@@ -1,0 +1,113 @@
+# WD MyCloud package builder CI
+# by Stefaan Ghysels
+#
+# Please note that I started with local development with https://github.com/nektos/act
+# but once that was working it became clear that many features of github actions were not supported yet
+# Hence the messy code below.
+
+name: WD MyCloud package CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    container:
+      image: wdpk/wdpk
+      options: -v ${{github.workspace}}/packages:/github/workspace/packages
+   # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Get package that was changed in the last commit
+        id: diff
+        env:
+          use_act: ${{ secrets.USE_ACT }}"
+        run: |
+          #if [ -z "${use_act}" ]; then
+            echo "not using act ${use_act}"
+            wget ${{ github.event.pull_request.diff_url }} -O pr.diff
+            pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
+          #else
+          #  echo "$(git show)"
+          #  pkg=$(git diff-tree --name-only --no-commit-id -r HEAD~1 | grep ^wdpk | cut -d/ -f2 | uniq || error=true)
+          #fi
+          pkgs=""
+          for p in $pkg; do
+            pkgs="${pkgs}${p} "
+          done
+          echo "Packages: ${pkgs}"
+          if [ -z "${use_act}" ]; then
+            echo "not using act ${use_act}"
+            echo ::set-output name=pkg::"${pkgs}"
+          else
+            echo "using act ${use_act}"
+            echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
+          fi
+
+      # TODO: use matrix instead
+      - name: Get platforms
+        id: platforms
+        run: |
+          PLATFORMS="WDMyCloudEX4100-EX4100 WDMyCloudDL4100-DL4100 WDMyCloudEX2100-EX2100 WDMyCloudDL2100-DL2100 WDMyCloudMirror-MirrorG2 MyCloudEX2Ultra-EX2Ultra MyCloudPR4100-PR4100 MyCloudPR2100-PR2100"
+          echo "Use act ${use_act}"
+          echo "PLATFORMS=${PLATFORMS}" >> $GITHUB_ENV
+
+      - name: Make APKG packages for selected platforms
+        id: make_apkg
+        run: |
+          pkg=$(echo ${PACKAGE} | cut -d' ' -f1)
+          echo ::set-output name=pkg::"$pkg"
+          cd wdpk/${pkg}
+          DATE="$(date +"%m%d%Y")"
+          CWD="$(pwd)"
+          VERSION="$(awk '/Version/{print $NF}' apkg.rc)"
+          echo ::set-output name=version::"$VERSION"
+          NAME="$(awk '/AddonShowName/{print $NF}' apkg.rc)"
+          echo ::set-output name=name::"$NAME"
+
+          echo "Building ${pkg} version ${VERSION}"
+          echo "$(ls -l ../..)"
+          RELEASE_DIR="../../packages/${pkg}/OS5"
+          mkdir -p "${RELEASE_DIR}"
+
+          echo PLF $PLATFORMS - $arr - $PACKAGE
+          for fullmodel in $PLATFORMS
+          do
+            model=${fullmodel%-*}
+            name=${fullmodel#*-}
+            echo "Build ${pkg} for ${platform}"
+            ../../mksapkg-OS5 -E -s -m $model > /dev/null
+            mv ../${platform}*.bin\(* ../${pkg}_${VERSION}_${name}.bin
+          done
+          echo "$(ls -l ..)"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.make_apkg.outputs.pkg }}_${{ steps.make_apkg.outputs.version }}_OS5
+          path: wdpk/*_*_*.bin
+
+      - name: Upload binary packages to Bintray when a tag is included
+        uses: masofcon/upload-to-bintray-github-action@master
+        with:
+          source_path: ./wdpk/${{steps.make_apkg.outputs.pkg}}_${{steps.make_apkg.outputs.version}}_*.bin
+          api_user: tfl
+          api_key: ${{ secrets.BINTRAY_API_KEY }} # An API key can be obtained from the user profile page.
+          repository: wdpksrc
+          package: ${{ steps.make_apkg.outputs.name }}
+          version: ${{ steps.make_apkg.outputs.version }}
+          upload_path: ${{ steps.make_apkg.outputs.pkg }}/OS5
+          publish: 1
+          override: 0
+        if: env.HEAD_TAG != ''

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# no longer used
+
 APP_NAME="$(basename $(pwd))"
 DATE="$(date +"%m%d%Y")"
 CWD="$(pwd)"
