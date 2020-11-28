@@ -24,36 +24,46 @@ jobs:
     container:
       image: wdpk/wdpk
       options: -v ${{github.workspace}}/packages:/github/workspace/packages
-   # Steps represent a sequence of tasks that will be executed as part of the job
+
+    # define all the OS5 supporting platforms and a prettier name
+    strategy:
+      matrix:
+       include:
+        - model: EX4100
+          platform: WDMyCloudEX4100
+        - model: DL4100
+          platform: WDMyCloudDL4100
+        - model: EX2100
+          platform: WDMyCloudEX2100
+        - model: DL2100
+          platform: WDMyCloudDL2100
+        - model: MirrorG2
+          platform: WDMyCloudMirror
+        - model: EX2Ultra
+          platform: MyCloudEX2Ultra
+        - model: PR4100
+          platform: MyCloudPR4100
+        - model: PR2100
+          platform: MyCloudPR2100
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Get package that was changed in the last commit
         id: diff
-        env:
-          use_act: ${{ secrets.USE_ACT }}"
         run: |
-          #if [ -z "${use_act}" ]; then
-            echo "not using act ${use_act}"
-            wget ${{ github.event.pull_request.diff_url }} -O pr.diff
-            pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
-          #else
-          #  echo "$(git show)"
-          #  pkg=$(git diff-tree --name-only --no-commit-id -r HEAD~1 | grep ^wdpk | cut -d/ -f2 | uniq || error=true)
-          #fi
+          wget ${{ github.event.pull_request.diff_url }} -O pr.diff
+          pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
+
+          # concat packages into single line
           pkgs=""
           for p in $pkg; do
             pkgs="${pkgs}${p} "
           done
           echo "Packages: ${pkgs}"
-          if [ -z "${use_act}" ]; then
-            echo "not using act ${use_act}"
-            echo ::set-output name=pkg::"${pkgs}"
-          else
-            echo "using act ${use_act}"
-            echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
-          fi
+          echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
 
       # TODO: use matrix instead
       - name: Get platforms
@@ -65,6 +75,9 @@ jobs:
 
       - name: Make APKG packages for selected platforms
         id: make_apkg
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          MODEL: ${{ matrix.model }}
         run: |
           pkg=$(echo ${PACKAGE} | cut -d' ' -f1)
           echo ::set-output name=pkg::"$pkg"
@@ -81,15 +94,10 @@ jobs:
           RELEASE_DIR="../../packages/${pkg}/OS5"
           mkdir -p "${RELEASE_DIR}"
 
-          echo PLF $PLATFORMS - $arr - $PACKAGE
-          for fullmodel in $PLATFORMS
-          do
-            model=${fullmodel%-*}
-            name=${fullmodel#*-}
-            echo "Build ${pkg} for ${platform}"
-            ../../mksapkg-OS5 -E -s -m $model > /dev/null
-            mv ../${platform}*.bin\(* ../${pkg}_${VERSION}_${name}.bin
-          done
+          echo "PLF ${PLATFORM} - $arr - ${PACKAGE}"
+          echo "Build ${pkg} for $MODEL"
+          ../../mksapkg-OS5 -E -s -m ${PLATFORM} > /dev/null
+          mv ../${PLATFORM}*.bin\(* ../${pkg}_${VERSION}_${MODEL}.bin
           echo "$(ls -l ..)"
 
       - name: Upload artifacts
