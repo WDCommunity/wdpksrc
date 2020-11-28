@@ -10,7 +10,7 @@ log=/tmp/debug_apkg
 APKG_MODULE="rclone"
 APKG_PATH="${path_dst}/${APKG_MODULE}"
 APKG_CONFIG="${APKG_PATH}/env"
-APKG_BACKUP_CONFIG="/shares/Volume_1/Nas_Prog/rclone.env"
+APKG_BACKUP_DIR="${path_dst}/${APKG_MODULE}_backup/"
 
 # install all package scripts to the proper location
 mv $path_src $path_dst
@@ -38,11 +38,13 @@ chmod +x rclone-*-linux-${PLF}/rclone
 rm rclone-current-linux-${PLF}.zip
 
 # restore previous config
-if [ -f "${APKG_BACKUP_CONFIG}" ]
+if [ -d "${APKG_BACKUP_DIR}" ]
 then
-   echo "Addon NZBget (install.sh) restore configs" >> $log
-   cp ${APKG_BACKUP_CONFIG} ${APKG_CONFIG}
-   rm -f ${APKG_BACKUP_CONFIG}
+   echo "Restore backup for ${APKG_MODULE}" >> $log
+   cp ${APKG_BACKUP_DIR}/* ${APKG_PATH}
+   rm -rf ${APKG_BACKUP_DIR}
+else
+   echo "No backup found for ${APKG_MODULE} in ${APKG_BACKUP_DIR}"
 fi
-echo "Addon rclone (install.sh) done" >> $log
+echo "Addon ${APKG_MODULE} (install.sh) done" >> $log
 
