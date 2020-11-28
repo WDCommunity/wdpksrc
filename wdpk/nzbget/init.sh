@@ -2,7 +2,7 @@
 
 [ -f /tmp/debug_apkg ] && echo "APKG_DEBUG: $0 $@" >> /tmp/debug_apkg
 
-path=$1
+path=$(readlink -f $1)
 log=/tmp/nzbget.log
 
 echo "INIT linking files from path: $path" >> $log

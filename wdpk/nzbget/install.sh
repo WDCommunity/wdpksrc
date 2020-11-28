@@ -10,7 +10,8 @@ log=/tmp/debug_apkg
 APKG_MODULE="nzbget"
 APKG_PATH="${path_dst}/${APKG_MODULE}"
 APKG_CONFIG="${APKG_PATH}/nzbget.conf"
-APKG_BACKUP_CONFIG="/mnt/HD/HD_a2/.systemfile/nzbget.conf"
+APKG_BACKUP_DIR="${path_dst}/${APKG_MODULE}_backup"
+APKG_BACKUP_CONFIG="${APKG_BACKUP_DIR}/nzbget.conf"
 
 # install all package scripts to the proper location
 mv $path_src $path_dst
@@ -41,11 +42,11 @@ echo "Install RC: $result" >> $log
 rm ${path_dst}/nzbget-latest-bin-linux.run
 
 # restore previous config
-if [ -f /mnt/HD/HD_a2/.systemfile/nzbget.conf ]
+if [ -d ${APKG_BACKUP_DIR} ]
 then
-   echo "Addon NZBget (install.sh) restore configs" >> $log
+   echo "Addon ${APKG_MODULE} (install.sh) restore configs" >> $log
    cp ${APKG_BACKUP_CONFIG} ${APKG_CONFIG}
-   rm -f ${APKG_BACKUP_CONFIG}
+   rm -rf ${APKG_BACKUP_DIR}
 else
    # setup default MainDir
    sed -i "s|^MainDir=.*|MainDir=/shares/Public/nzbget|" ${APKG_CONFIG}
