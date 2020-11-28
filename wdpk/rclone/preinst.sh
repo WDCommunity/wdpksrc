@@ -12,5 +12,5 @@ APKG_BACKUP_PATH=${APKG_PATH}/../${APKG_MODULE}_backup
 if [ ! -d ${APKG_BACKUP_PATH}] ; then
     # move config to backup path
     mkdir -p ${APKG_BACKUP_PATH}
-    mv -f $APKG_PATH/config ${APKG_BACKUP_PATH}
+    mv -f ${APKG_PATH}/rclone.config ${APKG_BACKUP_PATH}
 fi
