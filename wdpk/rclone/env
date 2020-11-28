@@ -1,0 +1,6 @@
+#!/bin/bash
+
+APKG_NAME=rclone
+PORT=5574
+RCLONE_USER=mycloud
+RCLONE_PW=mycloud

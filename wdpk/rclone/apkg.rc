@@ -1,0 +1,19 @@
+Package:	rclone
+Version:	27.11.17
+Packager:	TFL
+Email:
+Homepage:	https://rclone.org
+Description:	Manage files on cloud storage, including S3, business - consumer file storage services and standard transfer protocols.
+Icon:	rclone.png
+AddonShowName:	Rclone
+AddonIndexPage:	index.html
+AddonUsedPort:
+InstDepend:
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
