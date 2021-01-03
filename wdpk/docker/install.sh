@@ -92,7 +92,7 @@ fi
 
 # install docker-compose
 dc="${APKG_PATH}/docker/docker-compose"
-curl -L https://github.com/docker/compose/releases/download/1.26.2/run.sh -o $dc
+curl -L https://github.com/docker/compose/releases/download/1.27.4/run.sh -o $dc
 chmod +x $dc
 
 # proof that everything works
