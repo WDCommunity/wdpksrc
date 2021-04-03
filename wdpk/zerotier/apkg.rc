@@ -1,0 +1,19 @@
+Package:	zerotier
+Version:	1.6.3
+Packager:	TFL
+Email:
+Homepage:	http://www.zerotier.com
+Description:	A smart ethernet switch for Earth. Easily create VPNs of any size.
+Icon:			zerotier.png
+AddonShowName:	ZeroTier
+AddonIndexPage:	index.html
+AddonUsedPort:	
+InstDepend:		entware
+InstConflict:
+StartDepend:	entware
+StartConflict:
+CenterType:
+UserControl:
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
