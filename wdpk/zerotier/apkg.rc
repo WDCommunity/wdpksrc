@@ -12,8 +12,8 @@ InstDepend:		entware
 InstConflict:
 StartDepend:	entware
 StartConflict:
-CenterType:
-UserControl:
+CenterType: 1
+UserControl: 0
 MinFWVer:
 MaxFWVer:
 IndividualFlag: 0

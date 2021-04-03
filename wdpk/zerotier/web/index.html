@@ -10,4 +10,37 @@
 3). Join network (zerotier-cli join XXXXXXXXXXXXXXXX)
 <br>
 <a href="https://my.zerotier.com/">Manage your account here</a>
+
+<br>
+<button type="button" onclick="javascript:listNetworks();">List networks</button>
+<div id="networks-list"></div>
+<form id="join-network" onsubmit="javascript:joinNetwork(); return false;">
+    <h2>Join network</h2>
+    <label>Network name: <input name="network_name"></label>
+    <button type="submit">Submit</button>
+    <div id="join-network-output"></div>
+</form>
+<script type="application/javascript">
+    var zerotierUrl = '/cgi-bin/zerotier.py';
+    async function listNetworks() {
+        let element = document.getElementById('networks-list');
+        element.innerHTML = "loading...";
+        let response = await fetch(zerotierUrl);
+        let data = await response.text();
+
+        element.innerHTML = data;
+    }
+    async function joinNetwork() {
+        let element = document.getElementById('join-network-output');
+        element.innerText = 'joining...';
+        let form = document.getElementById('join-network');
+        let formData = new FormData(form);
+        let response = await fetch(zerotierUrl, {
+            method: 'POST',
+            body: formData,
+        });
+
+        element.innerHTML = await response.text();
+    }
+</script>
 </html>
