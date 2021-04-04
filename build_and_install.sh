@@ -4,7 +4,7 @@
 #
 # Usage:
 #
-#  ./build_and_install package target
+#  ./build_and_install package target [model]
 #
 # with
 #    package: a wdpk e.g. entware
@@ -18,7 +18,7 @@
 PACKAGE=$1
 
 usage () {
-	echo "Usage: $0 package <target>"
+	echo "Usage: $0 package <target> [model]"
 }
 
 if [ -z "$1" ]; then
@@ -44,7 +44,7 @@ if [ -z "$MODEL" ]; then
 fi
 echo "Select model $MODEL"
 
-BINARY=$(find packages/$PACKAGE -name "*${MODEL}_${PACKAGE}_*.bin" | sort | tail -n1)
+BINARY=$(find packages/$PACKAGE -name "*${PACKAGE}_*_${MODEL}.bin" | sort | tail -n1)
 echo "Created $BINARY"
 
 TARGET="$2"
