@@ -1,19 +1,19 @@
-Package:	entware
-Version:	20.11.17
-Packager:	TFL
+Package:		entware
+Version:		20.11.17
+Packager:		TFL
 Email:
-Homepage:	https://github.com/Entware/Entware
+Homepage:		https://github.com/Entware/Entware
 Description:	Ultimate repo for embedded devices
 Icon:	        entware.png
 AddonShowName:	Entware
-AddonIndexPage:	
-AddonUsedPort:	
+AddonIndexPage: index.html
+AddonUsedPort:
 InstDepend:
 InstConflict:
 StartDepend:
 StartConflict:
-CenterType:
-UserControl:
+CenterType:		1
+UserControl:	0
 MinFWVer:
 MaxFWVer:
-IndividualFlag: 0
+IndividualFlag:	0

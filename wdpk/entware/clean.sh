@@ -31,4 +31,5 @@ fi
 # remove lib
 
 # remove web
-rm -rf /var/www/entware
+rm -rf /var/www/apps/entware
+rm /var/www/cgi-bin/entware.py
