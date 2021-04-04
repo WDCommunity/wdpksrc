@@ -41,6 +41,13 @@ echo "Restore WD service module paths" | tee -a $LOG
 WDOPT=/usr/local/modules/opt/wd
 ln -sf ${WDOPT} /opt/wd 2>&1 | tee -a $LOG
 
+# Myron @ 28-01-2021 10:18 - On the DL4100 firefly and perl links are also in the /opt directory
+# These directories are not in WDOPT, but appear to be created during OS3 startup so replicate
+# in entware install. (For some reason the perl link is broken. This works-round that issue.)
+echo "Restore firefly and perl5 paths created during OS3 startup" | tee -a $LOG
+ln -sf ${OPT_ROOT}/firefly /usr/local/firefly 2>&1 | tee -a $LOG
+ln -sf ${OPT_ROOT}/perl5 /usr/local/modules/perl5 2>&1 | tee -a $LOG
+
 echo "Unmount again" | tee -a $LOG
 umount /opt 2>&1 | tee -a $LOG
 
