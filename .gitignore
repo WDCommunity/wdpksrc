@@ -9,6 +9,8 @@ wdpk/*/work*
 wdpk/*/*.sign
 wdpk/*/*.xml
 
+wdpk/zerotier/bin/
+
 .env
 
 toolchains/*/work*

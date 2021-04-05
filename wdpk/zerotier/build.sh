@@ -1,8 +1,6 @@
 #!/bin/sh
-
+set -e
 APP_NAME="$(basename $(pwd))"
-DATE="$(date +"%m%d%Y")"
-CWD="$(pwd)"
 VERSION="$(awk '/Version/{print $NF}' apkg.rc)"
 
 echo "Building ${APP_NAME} version ${VERSION}"
@@ -10,6 +8,7 @@ echo "Building ${APP_NAME} version ${VERSION}"
 MODELS="MyCloudEX2Ultra"
 
 for model in $MODELS; do
+  make
   ../../mksapkg-OS5 -E -s -m $model > /dev/null
 done
 
