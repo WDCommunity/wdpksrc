@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Entware</title>
+</head>
+
+<body>
+    <form id="search-package" onsubmit="javascript:package('search'); return false;">
+        <label>
+            Search:
+            <input type="text" name="package_name" placeholder="Package name">
+        </label>
+        <div id="search-results"></div>
+    </form>
+    <form id="install-package" onsubmit="javascript:package('install'); return false;">
+        <label>
+            Install:
+            <input type="text" name="package_name" placeholder="Package name">
+        </label>
+        <div id="install-results"></div>
+    </form>
+    <form id="remove-package" onsubmit="javascript:package('remove'); return false;">
+        <label>
+            Remove:
+            <input type="text" name="package_name" placeholder="Package name">
+        </label>
+        <div id="remove-results"></div>
+    </form>
+    <button type="button" onclick="javascript:listInstalledPackages();">List installed packages</button>
+    <div id="installed-packages-result"></div>
+    <script type="text/javascript">
+        var entwareUrl = "/cgi-bin/entware.py";
+
+        // IMPORTANT: Sending the form as post makes apache return 502
+
+        async function package(method) {
+            let element = document.getElementById(`${method}-results`);
+            element.innerText = 'loading...'
+            let form = document.getElementById(`${method}-package`);
+            let formData = new FormData(form);
+            let queryString = new URLSearchParams(formData);
+            let response = await fetch(`${entwareUrl}?method=${method}&${queryString.toString()}`, {
+                method: 'POST',
+            });
+            element.innerHTML = await response.text();
+        }
+
+        async function listInstalledPackages() {
+            let element = document.getElementById('installed-packages-result');
+            element.innerText = 'loading...';
+            let response = await fetch(`${entwareUrl}?method=list-installed`, { method: 'POST' });
+            element.innerHTML = await response.text();
+        }
+    </script>
+</body>
+
+</html>

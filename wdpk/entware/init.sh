@@ -33,8 +33,10 @@ then
 	chown -R root:root ${NEWHOME}
 fi
 
-# link web to /var/www just for the app icon
-WEBPATH=/var/www/entware/
-mkdir -p $WEBPATH
-ln -sf $APPDIR/web/* $WEBPATH
+WEBPATH=/var/www
+CGI_BIN="${WEBPATH}/cgi-bin"
+APP_WEBPATH=${WEBPATH}/apps/entware/
+mkdir -p $APP_WEBPATH
+ln -sf $APPDIR/web/* $APP_WEBPATH
+ln -sf $APPDIR/cgi-bin/entware.py $CGI_BIN/
 echo "Created Entware web dir symlink" > $LOG
