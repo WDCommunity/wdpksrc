@@ -45,17 +45,28 @@ def install_remove(qs, method):
     package_name = get_package_name(qs)
     output = subprocess.check_output(["opkg", method, f"{package_name}"])
     print_output(output)
-    print('Done')
+    print("Done")
+
 
 def install(qs):
-    install_remove(qs, 'install')
+    install_remove(qs, "install")
 
 
 def remove(qs):
-    install_remove(qs, 'remove')
+    install_remove(qs, "remove")
 
 
-FUNCTIONS = {"search": search, "install": install, "remove": remove}
+def list_installed(_):
+    output = subprocess.check_output(["opkg", "list-installed"])
+    print(output.decode().replace("\n", "<br>"))
+
+
+FUNCTIONS = {
+    "search": search,
+    "install": install,
+    "remove": remove,
+    "list-installed": list_installed,
+}
 
 
 def handle():
