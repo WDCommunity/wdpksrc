@@ -17,7 +17,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow should get 3 jobs: build, test and publish
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -65,14 +65,6 @@ jobs:
           echo "Packages: ${pkgs}"
           echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
 
-      # TODO: use matrix instead
-      - name: Get platforms
-        id: platforms
-        run: |
-          PLATFORMS="WDMyCloudEX4100-EX4100 WDMyCloudDL4100-DL4100 WDMyCloudEX2100-EX2100 WDMyCloudDL2100-DL2100 WDMyCloudMirror-MirrorG2 MyCloudEX2Ultra-EX2Ultra MyCloudPR4100-PR4100 MyCloudPR2100-PR2100"
-          echo "Use act ${use_act}"
-          echo "PLATFORMS=${PLATFORMS}" >> $GITHUB_ENV
-
       - name: Make APKG packages for selected platforms
         id: make_apkg
         env:
@@ -106,16 +98,18 @@ jobs:
           name: ${{ steps.make_apkg.outputs.pkg }}_${{ steps.make_apkg.outputs.version }}_OS5
           path: wdpk/*_*_*.bin
 
-      - name: Upload binary packages to Bintray when a tag is included
-        uses: masofcon/upload-to-bintray-github-action@master
-        with:
-          source_path: ./wdpk/${{steps.make_apkg.outputs.pkg}}_${{steps.make_apkg.outputs.version}}_*.bin
-          api_user: tfl
-          api_key: ${{ secrets.BINTRAY_API_KEY }} # An API key can be obtained from the user profile page.
-          repository: wdpksrc
-          package: ${{ steps.make_apkg.outputs.name }}
-          version: ${{ steps.make_apkg.outputs.version }}
-          upload_path: ${{ steps.make_apkg.outputs.pkg }}/OS5
-          publish: 1
-          override: 0
+      - name: Publish packages to CloudSmith
+        id: push
+        uses: cloudsmith-io/action@master
         if: env.HEAD_TAG != ''
+        with:
+          api-key: ${{ secrets.CLOUDSMITH_API_KEY }}
+          command: 'push'
+          format: 'raw'
+          owner: 'wdpksrc'        # Your Cloudsmith account name or org name (namespace)
+          repo: 'wdpksrc'         # Your Cloudsmith Repository name (slug)
+          file: ${{ steps.make_apkg.outputs.name }}        # Name of file
+          name: ${{ steps.make_apkg.outputs.pkg }}         # Name for Raw package
+          # summary: 'SUMMARY'          # Optional Summary for Raw Package
+          # description: 'DESCRIPTION'  # Optional description for Raw package
+          version: ${{ github.sha }}

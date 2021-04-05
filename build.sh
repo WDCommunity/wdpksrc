@@ -2,4 +2,4 @@
 
 source .env
 
-act --secret-file .env -e gh.json
+act --secret-file .env  # -e gh.json
