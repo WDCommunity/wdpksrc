@@ -24,16 +24,18 @@ ARCH="$(uname -m)"
 
 # download docker binaries
 cd "${APKG_PATH}"
+TARBALL="docker-${VERSION}.tgz"
 
 if [ ${ARCH} != "x86_64" ]; then
-	# Update the "ARCH" to "armhf" so it matches the docker download site
-	# Versions above "19.03.8" do not have a working "dockerd" binary on WD EX4100
-	ARCH="armhf"
-	VERSION="19.03.8"
+    ARCH="armhf"
+    # JediNite provides custom docker packages for ARM as versions above "19.03.8" do not have a working "dockerd" binary on WD EX4100
+    # Instead they are required to be built using Debian "stretch" instead of "buster" to workaround the issue.
+    # Thanks to gabrielitos87 for discovering the workaround for this issue.
+    # Refer to https://github.com/WDCommunity/wdpksrc/issues/85 for more details.
+    URL="https://github.com/JediNite/docker-ce-WDEX4100-binaries/releases/download/v${VERSION}/${TARBALL}"
+else
+    URL="https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}"
 fi
-
-TARBALL="docker-${VERSION}.tgz"
-URL="https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}"
 
 # download and extract the package
 curl -L "${URL}" | tar xz >> $log 2>&1
