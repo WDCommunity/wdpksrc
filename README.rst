@@ -4,6 +4,9 @@ I (Stefaan / TFL) am refactoring this repo for compatibility with OS5. Please us
 
 Several OS5 packages are now available on `Bintray`_. The wdcommunity website is still to be updated.
 
+[![Hosted By: Cloudsmith](https://img.shields.io/badge/OSS%20hosting%20by-cloudsmith-blue?logo=cloudsmith&style=for-the-badge)](https://cloudsmith.com)
+
+
 wdpksrc
 =======
 
@@ -66,6 +69,16 @@ Currently, these custom WD targets are available in this `SynoCommunity fork`_
 * packages are available in ``packages`` directory
 
 Some installer script changes might be necessary.
+
+
+Hosting
+-------
+
+Package repository hosting is graciously provided by  [Cloudsmith](https://cloudsmith.com).
+Cloudsmith is the only fully hosted, cloud-native, universal package management solution, that
+enables your organization to create, store and share packages in any format, to any place, with total
+confidence.
+
 
 Donate
 ------
