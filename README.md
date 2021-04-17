@@ -36,8 +36,7 @@ The build environment is also available in a docker image.
     cd wdpk/<somepackage>    
     ./build.sh
     
-Build and deploy test
-^^^^^^^^^^^^^^^^^^^^^
+### Build and deploy test
 
 .. code::
 
@@ -45,8 +44,7 @@ Build and deploy test
 
 This builds the package, installs it on a PR4100 host device and runs a sanity check if a test is available.
 
-Native apps
-^^^^^^^^^^^
+### Native apps
 
 If you want to compile native apps, you'll need a complete wdpksrc / spksrc toolchain.  
 
@@ -67,8 +65,7 @@ Currently, these custom WD targets are available in this `SynoCommunity fork`_
 Some installer script changes might be necessary.
 
 
-Hosting
--------
+# Hosting
 
 Package repository hosting is graciously provided by  [Cloudsmith](https://cloudsmith.com).
 Cloudsmith is the only fully hosted, cloud-native, universal package management solution, that
@@ -76,16 +73,16 @@ enables your organization to create, store and share packages in any format, to 
 confidence.
 
 
-Donate
-------
+# Donate
+
 Thanks, but I'm good. Feel free to donate to these other projects instead
 
 * [Allester Fox](https://fox-exe.ru/)
 * * [SynoCommunity][SynoCommunity] project
 * some charity
 
-License
--------
+# License
+
 When not explicitly set, files are placed under a [3 clause BSD license](http://www.opensource.org/licenses/BSD-3-Clause)
 
 
