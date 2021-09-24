@@ -64,6 +64,9 @@ Currently, these custom WD targets are available in this `SynoCommunity fork`_
 
 Some installer script changes might be necessary.
 
+**Note**: 
+  1. If mksapkg is not found, create a link for mksapkg with source file as mksapkg-OS5 or mksapkg-OS3 as needed.
+  2. If make command doesnt work, use build.sh
 
 # Hosting
 
