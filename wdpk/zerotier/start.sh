@@ -1,4 +1,7 @@
-#! /bin/sh
-[ -f /tmp/debug_apkg ] && echo "APKG_DEBUG: $0 $@" >> /tmp/debug_apkg
+#!/bin/bash
+[ -f /tmp/debug_apkg ] && echo "APKG_DEBUG: $0 $@ $PWD" >> /tmp/debug_apkg
 
-/opt/bin/zerotier-one -d
+export ZEROTIER_HOME=/mnt/HD/HD_a2/.systemfile/zerotier
+mkdir -p "$ZEROTIER_HOME"
+
+$1/bin/zerotier-one -d

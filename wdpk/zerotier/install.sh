@@ -7,5 +7,3 @@ NAS_PROG=$(readlink -f $2)
 
 # install all package scripts to the proper location
 cp -rfv ${INSTALL_DIR} ${NAS_PROG} &2>&1 >> $DEBUG_FILE
-
-/opt/bin/opkg install zerotier &2>&1 >> $DEBUG_FILE
