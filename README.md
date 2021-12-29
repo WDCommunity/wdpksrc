@@ -2,7 +2,7 @@
 
 I (Stefaan / TFL) am refactoring this repo for compatibility with OS5. Please use issues tab if something is broken.
 
-Several OS5 packages are now available on CloudSmith. The wdcommunity website is still to be updated.
+Several OS5 packages are now available on [CloudSmith](https://cloudsmith.io/~wd-community/repos/). The wdcommunity website is still to be updated.
 
 [![Hosted By: Cloudsmith](https://img.shields.io/badge/OSS%20hosting%20by-cloudsmith-blue?logo=cloudsmith&style=for-the-badge)](https://cloudsmith.com)
 
