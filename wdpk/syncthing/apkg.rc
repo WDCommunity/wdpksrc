@@ -1,5 +1,5 @@
 Package:	syncthing
-Version:	1.18.4
+Version:	1.20.2
 Packager:	TFL
 Email:
 Homepage:	https://www.syncthing.net
@@ -8,7 +8,7 @@ Icon:		logo.png
 AddonShowName:	Syncthing
 AddonIndexPage:	index.php
 AddonUsedPort:
-InstDepend:	
+InstDepend:
 InstConflict:
 StartDepend:
 StartConflict:
