@@ -4,7 +4,7 @@
 
 NAS_PROG="/shares/Volume_1/Nas_Prog"
 
-APKG_MODULE="medusa"
+APKG_MODULE="syncthing"
 APKG_PATH="${NAS_PROG}/${APKG_MODULE}"
 APKG_BACKUP_PATH="${NAS_PROG}/${APKG_MODULE}_backup"
 APKG_CONFIG="${APKG_PATH}/settings.conf"
