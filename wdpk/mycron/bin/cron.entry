@@ -1,0 +1,1 @@
+* * * * * /mnt/HD/HD_a2/Nas_Prog/mycron/bin/sudo -u root /bin/bash -c "(echo&&date&&id) >> /shares/Public/test.txt"

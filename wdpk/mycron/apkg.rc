@@ -1,0 +1,19 @@
+Package:	mycron
+Version:	0.0.1
+Packager:	Pi
+Email:
+Homepage:	https://blog.pavel-pi.de
+Description:	3rd party app for cronjobs
+Icon:		mycron.png
+AddonShowName:	MyCron
+AddonIndexPage:	index.php
+AddonUsedPort:
+InstDepend:
+InstConflict:
+StartDepend:
+StartConflict:
+CenterType:     1
+UserControl:	1
+MinFWVer:
+MaxFWVer:
+IndividualFlag: 0
