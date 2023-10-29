@@ -1,24 +1,53 @@
-# WD MyCloud package builder CI
-# by Stefaan Ghysels
-#
-# Please note that I started with local development with https://github.com/nektos/act
-# but once that was working it became clear that many features of github actions were not supported yet
-# Hence the messy code below.
-
 name: WD MyCloud package CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   pull_request:
-    types: [ synchronize ]
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - wdpk/**
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: 'Packages to build'
+        required: false
+        default: 'docker'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow should get 3 jobs: build, test and publish
+  prepare: 
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: set-from-input
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          # turn workflow dispatch input into JSON array
+          pkgs=$(echo ${{ github.event.inputs.packages }} | sed 's/ /","/g')
+          echo "PACKAGES=[$pkgs]" >> $GITHUB_OUTPUT
+
+      - id: set-matrix
+        if: github.event_name == 'pull_request'
+        run: |
+          # get all changed directories in wdpk/**/
+          # and create a matrix of platforms
+          # and a list of packages to build
+          if [ -n "${{ github.event.pull_request.diff_url }}" ]; then
+            wget ${{ github.event.pull_request.diff_url }} -O pr.diff
+            pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
+          else
+            pkg=""
+          fi
+
+          # make JSON array from pkg list
+          pkgs=$(echo $pkg | sed 's/ /","/g')
+          
+          echo "Packages: ${pkgs}"
+          echo "PACKAGES=[${pkgs}]" >> $GITHUB_OUTPUT
 
   build:
     # The type of runner that the job will run on
@@ -30,53 +59,24 @@ jobs:
     # define all the OS5 supporting platforms and a prettier name
     strategy:
       matrix:
-       include:
-        - model: EX4100
-          platform: WDMyCloudEX4100
-        - model: DL4100
-          platform: WDMyCloudDL4100
-        - model: EX2100
-          platform: WDMyCloudEX2100
-        - model: DL2100
-          platform: WDMyCloudDL2100
-        - model: MirrorG2
-          platform: WDMyCloudMirror
-        - model: EX2Ultra
-          platform: MyCloudEX2Ultra
-        - model: PR4100
-          platform: MyCloudPR4100
-        - model: PR2100
-          platform: MyCloudPR2100
-
-    environment: staging
-
+        model: [EX4100, DL4100, EX2100, DL2100, MirrorG2, Ex2Ultra, PR4100, PR2100]
+        packages: ${{ steps.prepare.outputs.matrix.PACKAGES }}
+        
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: Get package that was changed in the last commit
-        id: diff
-        run: |
-          if [ -n "${{ github.event.pull_request.diff_url }}" ]; then
-            wget ${{ github.event.pull_request.diff_url }} -O pr.diff
-            pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
-
-            # concat packages into single line
-            pkgs=""
-            for p in $pkg; do
-              pkgs="${pkgs}${p} "
-            done
-            echo "Packages: ${pkgs}"
-            echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
-          fi
-
       - name: Make APKG packages for selected platforms
         id: make_apkg
         env:
           PLATFORM: ${{ matrix.platform }}
           MODEL: ${{ matrix.model }}
+          PACKAGE: ${{ matrix.packages }}
         run: |
+          declare -A PACKAGES
+          PLATFORMS=( ["EX4100"]="WDMyCloudEX4100" ["EX2100"]="WDMyCloudEX2100" ["DL4100"]="WDMyCloudDL4100" ["DL2100"]="WDMyCloudDL2100" ["MirrorG2"]="WDMyCloudMirror" ["Ex2Ultra"]="MyCloudEX2Ultra" ["PR4100"]="MyCloudPR4100" ["PR2100"]="MyCloudPR2100")
+          PLATFORM="${PLATFORMS[$MODEL]}" 
+
           pkg=$(echo ${PACKAGE:-docker} | cut -d' ' -f1)
           echo ::set-output name=pkg::"$pkg"
           cd wdpk/${pkg}
@@ -100,24 +100,8 @@ jobs:
           mv ../${PLATFORM}*.bin\(* ../${pkg}_${VERSION}_${MODEL}.bin
           echo "$(ls -l ..)"
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.make_apkg.outputs.pkg }}_${{ steps.make_apkg.outputs.version }}_OS5
-          path: wdpk/*_*_*.bin
-
-      - name: Publish packages to CloudSmith
+      - name: Publish packages to GH Releases
         id: push
-        uses: cloudsmith-io/action@master
         with:
-          api-key: ${{ secrets.CLOUDSMITH_API_KEY }}
-          command: 'push'
-          format: 'raw'
-          owner: 'wd-community'        # Your Cloudsmith account name or org name (namespace)
-          repo: ${{matrix.model}}      # Your Cloudsmith Repository name (slug)
-          file: ./wdpk/${{steps.make_apkg.outputs.pkg}}_${{steps.make_apkg.outputs.version}}_${{matrix.model}}.bin     # Name of file
-          name: ${{steps.make_apkg.outputs.pkg}}              # Name for Raw package
-          summary: ${{ github.sha }}                          # Optional Summary for Raw Package
-          description: ${{steps.make_apkg.outputs.description}}   # Optional description for Raw package
-          version: ${{steps.make_apkg.outputs.version}}
-          republish: "true"
+          gh release create ${{ steps.make_apkg.outputs.pkg }}-${{ steps.make_apkg.outputs.version }} \
+            --generate-notes packages/${{ steps.make_apkg.outputs.pkg }}/OS5/*.bin
