@@ -58,16 +58,18 @@ jobs:
       - name: Get package that was changed in the last commit
         id: diff
         run: |
-          wget ${{ github.event.pull_request.diff_url }} -O pr.diff
-          pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
+          if [ -n "${{ github.event.pull_request.diff_url }}" ]; then
+            wget ${{ github.event.pull_request.diff_url }} -O pr.diff
+            pkg=$(grep "^\+\+\+ b/wdpk/" pr.diff | cut -d/ -f3 | uniq)
 
-          # concat packages into single line
-          pkgs=""
-          for p in $pkg; do
-            pkgs="${pkgs}${p} "
-          done
-          echo "Packages: ${pkgs}"
-          echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
+            # concat packages into single line
+            pkgs=""
+            for p in $pkg; do
+              pkgs="${pkgs}${p} "
+            done
+            echo "Packages: ${pkgs}"
+            echo "PACKAGE=${pkgs}" >> $GITHUB_ENV
+          fi
 
       - name: Make APKG packages for selected platforms
         id: make_apkg
