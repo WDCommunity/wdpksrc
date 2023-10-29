@@ -1,12 +1,10 @@
 name: WD MyCloud package CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# Run via workflow_dispatch or after merging to main
 on:
-  pull_request:
-    branches: [ main ]
-    paths:
-      - wdpk/**
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       packages:
@@ -52,6 +50,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    needs: prepare
     container:
       image: wdpk/wdpk
       options: -v ${{github.workspace}}/packages:/github/workspace/packages
@@ -60,7 +59,7 @@ jobs:
     strategy:
       matrix:
         model: [EX4100, DL4100, EX2100, DL2100, MirrorG2, Ex2Ultra, PR4100, PR2100]
-        packages: ${{ steps.prepare.outputs.matrix.PACKAGES }}
+        packages: ${{fromJson(needs.prepare.outputs.matrix)}}
         
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -69,7 +68,6 @@ jobs:
       - name: Make APKG packages for selected platforms
         id: make_apkg
         env:
-          PLATFORM: ${{ matrix.platform }}
           MODEL: ${{ matrix.model }}
           PACKAGE: ${{ matrix.packages }}
         run: |
@@ -102,6 +100,6 @@ jobs:
 
       - name: Publish packages to GH Releases
         id: push
-        with:
+        run: |
           gh release create ${{ steps.make_apkg.outputs.pkg }}-${{ steps.make_apkg.outputs.version }} \
             --generate-notes packages/${{ steps.make_apkg.outputs.pkg }}/OS5/*.bin
