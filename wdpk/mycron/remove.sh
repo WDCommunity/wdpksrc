@@ -10,10 +10,6 @@ function log {
 # log entry
 log "Script called: $0 $@"
 
-# recover original crontab
-log "recover original crontab from before install"
-crontab $1/crontab.orig
-
 # remove app directory
 path=$1
 log "remove app path \"$path\""
