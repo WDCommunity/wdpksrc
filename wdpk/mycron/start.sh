@@ -19,8 +19,19 @@ log "Script called: $0 $@"
 # -H		Don't create home directory
 adduser -D -H www-data
 
-# set crontab
-crontab -u www-data "$1"/bin/cron.entry
+#  set crontab
+CRONTAB_FILE="/var/spool/cron/crontabs/www-data"
+TMP_FILE="/tmp/crontab_www-data"
+if test -f "$TMP_FILE"; then
+    # restore crontab file from /tmp when existent
+    log "Restore $TMP_FILE to $CRONTAB_FILE"
+    cp $TMP_FILE $CRONTAB_FILE
+else
+    # use sample crontab
+    log "Set $1/bin/cron.entry as crontab of user www-data"
+    crontab -u www-data "$1"/bin/cron.entry
+fi
+
 
 # if sudo binary was updated: make new SUID copy
 if cmp /usr/bin/sudo $APPDIR/bin/sudo; then
