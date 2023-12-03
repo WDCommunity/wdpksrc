@@ -2,6 +2,10 @@
 
 APPDIR=$1
 LOG=/tmp/debug_apkg
+CRONTAB_FILE="/var/spool/cron/crontabs/www-data"
+BACKUP_FILE="/usr/local/config/crontab_www-data"
+SAMPLE_FILE="$APPDIR/bin/cron.entry"
+SUDO_FILE="$APPDIR/bin/sudo"
 
 function log {
     touch $LOG
@@ -21,24 +25,22 @@ log "Script called: $0 $@"
 adduser -D -H www-data
 
 #  set crontab
-CRONTAB_FILE="/var/spool/cron/crontabs/www-data"
-TMP_FILE="/usr/local/config/crontab_www-data"
-if test -f "$TMP_FILE"; then
+if test -f "$BACKUP_FILE"; then
     # restore crontab file when existent
-    log "Restore $TMP_FILE to $CRONTAB_FILE"
-    cp $TMP_FILE $CRONTAB_FILE
+    log "Restore $BACKUP_FILE to $CRONTAB_FILE"
+    cp $BACKUP_FILE $CRONTAB_FILE
 else
     # use sample crontab
-    log "Set $1/bin/cron.entry as crontab of user www-data"
-    crontab -u www-data "$1"/bin/cron.entry
+    log "Set $SAMPLE_FILE as crontab of user www-data"
+    crontab -u www-data "$SAMPLE_FILE"
 fi
 
 
 # if sudo binary was updated: make new SUID copy
-if cmp /usr/bin/sudo $APPDIR/bin/sudo; then
-  log "sudo binary not updated, skip"
+if cmp /usr/bin/sudo $SUDO_FILE; then
+  log "SUDO binary not updated, skip"
 else
-  log "sudo binary was updated, create new SUID copy"
-  cp /usr/bin/sudo $APPDIR/bin/sudo
-  chmod 4755 $APPDIR/bin/sudo
+  log "SUDO binary was updated, create new SUID copy"
+  cp /usr/bin/sudo $SUDO_FILE
+  chmod 4755 $SUDO_FILE
 fi
