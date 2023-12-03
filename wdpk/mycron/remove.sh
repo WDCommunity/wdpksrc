@@ -1,6 +1,7 @@
 #!/bin/sh
 
 LOG=/tmp/debug_apkg
+BACKUP_FILE="/usr/local/config/crontab_www-data"
 
 function log {
     touch $LOG
@@ -25,4 +26,9 @@ rm -rf $webdir
 # if it is "0", then the path will be /var/www/<appname>
 
 # remove user
+log "delete user www-data"
 deluser www-data
+
+# remove backup file
+log "remove backup file $BACKUP_FILE"
+rm "$BACKUP_FILE"
