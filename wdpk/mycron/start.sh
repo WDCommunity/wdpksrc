@@ -4,6 +4,7 @@ APPDIR=$1
 LOG=/tmp/debug_apkg
 
 function log {
+    touch $LOG
     TIME=$(date '+%Y-%m-%d %H:%M:%S')
     [ -f $LOG ] && echo "$TIME [mycron] [$(basename $0)] $1" >> $LOG
 }
@@ -21,9 +22,9 @@ adduser -D -H www-data
 
 #  set crontab
 CRONTAB_FILE="/var/spool/cron/crontabs/www-data"
-TMP_FILE="/tmp/crontab_www-data"
+TMP_FILE="/usr/local/config/crontab_www-data"
 if test -f "$TMP_FILE"; then
-    # restore crontab file from /tmp when existent
+    # restore crontab file when existent
     log "Restore $TMP_FILE to $CRONTAB_FILE"
     cp $TMP_FILE $CRONTAB_FILE
 else
