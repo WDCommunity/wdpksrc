@@ -1,6 +1,8 @@
 #!/bin/sh
 
 LOG=/tmp/debug_apkg
+CRONTAB_FILE="/var/spool/cron/crontabs/www-data"
+BACKUP_FILE="/usr/local/config/crontab_www-data"
 
 function log {
     touch $LOG
@@ -12,11 +14,9 @@ function log {
 log "Script called: $0 $@"
 
 # backup crontab
-CRONTAB_FILE="/var/spool/cron/crontabs/www-data"
-TMP_FILE="/usr/local/config/crontab_www-data"
-log "Backup $CRONTAB_FILE to $TMP_FILE"
-cp $CRONTAB_FILE $TMP_FILE
+log "Backup $CRONTAB_FILE to $BACKUP_FILE"
+cp $CRONTAB_FILE $BACKUP_FILE
 
-# remove crontab
+# disable crontab
 log "Remove crontab of user www-data"
 crontab -u www-data -r
