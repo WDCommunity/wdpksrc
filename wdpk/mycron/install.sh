@@ -5,6 +5,7 @@ UPLOAD_PATH=$1
 INST_PATH=$2
 
 function log {
+    touch $LOG
     TIME=$(date '+%Y-%m-%d %H:%M:%S')
     [ -f $LOG ] && echo "$TIME [mycron] [$(basename $0)] $1" >> $LOG
 }

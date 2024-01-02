@@ -22,16 +22,15 @@ textarea {
 <script>
 
     function sendCron(){
-        var cronentry = document.getElementById("myTextarea").value;
+        var cronentry_b64 = encodeURIComponent(btoa(document.getElementById("myTextarea").value));
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "apps/mycron/cron.php", true);
         xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhttp.send("text="+cronentry); 
+        xhttp.send("text="+cronentry_b64); 
         xhttp.onload = () => {
             if (xhttp.readyState === xhttp.DONE) {
                 if (xhttp.status === 200) {
                     getCrontab();
-                    getCronEntry();
                 }
             };
         };
@@ -39,23 +38,7 @@ textarea {
 
     function getCrontab(){
         var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "apps/mycron/cron.php?file=crontab", true);
-        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(null);
-        xhttp.onload = () => {
-        if (xhttp.readyState === xhttp.DONE) {
-            if (xhttp.status === 200) {
-                const div = document.getElementById('myCronarea');
-                div.innerHTML = xhttp.responseText;
-
-            }
-        }
-        };
-    };
-
-    function getCronEntry(){
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "apps/mycron/cron.php?file=cronentry", true);
+        xhttp.open("GET", "apps/mycron/cron.php?file", true);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhttp.send(null);
         xhttp.onload = () => {
@@ -71,7 +54,6 @@ textarea {
     };
 
     getCrontab();
-    getCronEntry();
 
 </script>
 
@@ -89,11 +71,3 @@ textarea {
 
 <!-- Button that sends the textarea contents to the cron.php and updates the crontab DIV contents -->
 <button onclick="sendCron()">Save</button>
-
-
-<!-- DIV that shows the current crontab of root user -->
-<br>
-<div class="field_top"><span class="_text" datafld="title_note"> The following shows the current crontab of the user <i>www-data</i>:</span></div>
-<br>
-<div class="cronarea" id="myCronarea"></div>
-<br>
