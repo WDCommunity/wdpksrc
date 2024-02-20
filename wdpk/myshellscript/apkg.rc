@@ -1,0 +1,23 @@
+Package:	        myshellscript
+Version:	        0.0.1
+Packager:	        Pi
+Email:              pi@pavel-pi.de
+Homepage:	        https://blog.pavel-pi.de
+Description:	    3rd party App for Shell Scripts
+Icon:		        myshellscript.png
+AddonShowName:	    MyShellScript
+AddonIndexPage:	    index.php
+AddonUsedPort:      
+InstDepend:         
+InstConflict:        
+StartDepend:         
+StartConflict:  
+CenterType:         1
+UserControl:	    1
+MinFWVer:           
+MaxFWVer:           
+IndividualFlag:     0
+
+
+
+
