@@ -1,8 +1,10 @@
-# ANNOUNCEMENT AUG 2020
+# ANNOUNCEMENT OCT 2026
 
-I (Stefaan / TFL) am refactoring this repo for compatibility with OS5. Please use issues tab if something is broken.
+You may find that this project didn't move much in the last 6 years, mea culpa. Life happened.
+Feel free to contribute / step in / apply for an admin role.
 
-Several OS5 packages are now available on [CloudSmith](https://cloudsmith.io/~wd-community/repos/). The wdcommunity website is still to be updated.
+Several OS5 packages are now available on [CloudSmith](https://cloudsmith.io/~wd-community/repos/). 
+The wdcommunity website has been decommissioned, sorry.
 
 [![Hosted By: Cloudsmith](https://img.shields.io/badge/OSS%20hosting%20by-cloudsmith-blue?logo=cloudsmith&style=for-the-badge)](https://cloudsmith.com)
 
