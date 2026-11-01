@@ -13,37 +13,45 @@ log=/tmp/debug_apkg
 
 APKG_PATH="${NAS_PROG}/${APKG_NAME}"
 
+case "$(uname -m)" in
+    x86_64) PLATFORM=amd64 ;;
+    armv7l|armv8l) PLATFORM=arm ;;
+    *) echo "Unsupported architecture: $(uname -m)" >> "$log"; exit 2 ;;
+esac
+
 echo "move package data" >> $log
-mv ${INSTALL_DIR} ${NAS_PROG} 2>&1 >> $log
+mv "${INSTALL_DIR}" "${NAS_PROG}" >> "$log" 2>&1 || exit 2
 
-# setup secure downloads
-if [ ! -e /etc/ssl/cert.pem ]; then
-    curl --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem
-    mv cacert.pem /etc/ssl/cert.pem
-fi
-
-PLATFORM=$(uname -m)
-if [ "${PLATFORM}" = "x86_64" ]; then
-	PLATFORM="amd64"
-else
-	PLATFORM="arm"
-fi
-VERSION="v1.29.6"
-
+VERSION="v2.1.7"
 MAINDIR="syncthing-linux-${PLATFORM}-${VERSION}"
-PACKAGE="${MAINDIR}.tar.gz"
-URL="https://github.com/syncthing/syncthing/releases/download/${VERSION}/${PACKAGE}"
-
-curl -L -s ${URL} | tar zx -C ${APKG_PATH} 2>&1 >> $log
-
-[[ ! $? -eq 0 ]] && exit 2
-
-# strip the version from the app dir
-mv ${APKG_PATH}/${MAINDIR} ${APKG_PATH}/${APKG_NAME}
+DOWNLOAD_DIR="${APKG_PATH}/download"
+mkdir -p "$DOWNLOAD_DIR" || exit 2
+trap 'rm -rf "$DOWNLOAD_DIR"' EXIT
+echo "Installing Syncthing ${VERSION}" >> "$log"
+curl -fsSL "https://github.com/syncthing/syncthing/releases/download/${VERSION}/${MAINDIR}.tar.gz" -o "${DOWNLOAD_DIR}/release.tar.gz" >> "$log" 2>&1 || exit 2
+tar xzf "${DOWNLOAD_DIR}/release.tar.gz" -C "$DOWNLOAD_DIR" >> "$log" 2>&1 || exit 2
+[ -x "${DOWNLOAD_DIR}/${MAINDIR}/syncthing" ] || exit 2
+"${DOWNLOAD_DIR}/${MAINDIR}/syncthing" --version >> "$log" 2>&1 || {
+    echo "Syncthing ${VERSION} cannot run on this device" >> "$log"
+    exit 2
+}
+mv "${DOWNLOAD_DIR}/${MAINDIR}" "${APKG_PATH}/${APKG_NAME}" >> "$log" 2>&1 || exit 2
 
 # create syncthing home dir
-mkdir -p ${ST_HOME}
+mkdir -p "${ST_HOME}" || exit 2
 # finds first user in the admin group
-ADMIN_USER=$(cat /etc/group | grep administrators | head -n 1 | awk -F: '{ print $4}')
-chown ${ADMIN_USER} ${ST_HOME}
-chmod u+w ${ST_HOME}
+ADMIN_USER=$(awk -F: '$1 == "administrators" { split($4, users, ","); print users[1]; exit }' /etc/group)
+
+if [ -z "${ADMIN_USER}" ]; then
+    echo "Could not determine the WD administrators user" >> $log
+    exit 2
+fi
+
+# Syncthing runs as the WD administrator user. On a reinstall the state
+# directory may already contain root- or another-user-owned data, so fix the
+# entire tree instead of only its top-level directory.
+chown -R "${ADMIN_USER}" "${ST_HOME}" 2>&1 >> $log || exit 2
+chmod -R u+rwX "${ST_HOME}" 2>&1 >> $log || exit 2
+# Syncthing replaces its executable in place during automatic upgrades.
+chown -R "${ADMIN_USER}" "${APKG_PATH}/${APKG_NAME}" >> "$log" 2>&1 || exit 2
+chmod u+rwx "${APKG_PATH}/${APKG_NAME}" >> "$log" 2>&1 || exit 2

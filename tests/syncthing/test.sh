@@ -16,9 +16,7 @@ do
 		count=$(( $count + 1 ))
 	else
 		echo "Server not reachable"
-		break
 		exit 1
 	fi
 done
 echo "Server reachable!"
-
