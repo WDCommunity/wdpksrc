@@ -1,0 +1,25 @@
+name: Syncthing tests
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - wdpk/syncthing/**
+      - tests/syncthing/**
+      - .github/workflows/syncthing.yml
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [linux/amd64, linux/arm/v7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - name: Test installer and startup
+        run: |
+          docker run --rm --platform '${{ matrix.platform }}' \
+            -v "$GITHUB_WORKSPACE:/wdpksrc:ro" debian:bookworm-slim \
+            sh /wdpksrc/tests/syncthing/install-test.sh
